@@ -2,7 +2,6 @@
 
 namespace Egg2CodeLabs\FilamentTypo3\Forms\Components;
 
-use Closure;
 use Egg2CodeLabs\FilamentTypo3\Typo3AccessTabFieldsEnum as FieldsEnum;
 use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Components\DateTimePicker;
@@ -10,45 +9,10 @@ use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Tabs\Tab;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Set;
+use BackedEnum;
 
-class Typo3AccessTab extends Tab
+class Typo3AccessTab extends AbstractCustomTab
 {
-    /**
-     * @var array<FieldsEnum> List of fields excluded from rendering
-     */
-    protected Closure|array $exclude = [];
-
-    /**
-     * Add fields to the list of excluded fields
-     *
-     * @param Closure|array<FieldsEnum|string> $exclude List of fields to exclude in this view
-     *
-     * @return $this
-     */
-    public function exclude(array|Closure $exclude): static
-    {
-        $this->exclude = $exclude;
-
-        return $this;
-    }
-
-    /**
-     * Get a sanitized list of excluded fields
-     *
-     * @return array
-     */
-    public function getExclude(): array
-    {
-        $exclude = $this->evaluate($this->exclude);
-
-        return array_map(
-            callback: fn (FieldsEnum|string $item): FieldsEnum => !$item instanceof FieldsEnum
-                ? FieldsEnum::from($item)
-                : $item,
-            array: $exclude
-        );
-    }
-
     /**
      * @param string $label
      *
@@ -57,21 +21,6 @@ class Typo3AccessTab extends Tab
     public static function make(string $label = 'Access'): static
     {
         return parent::make($label);
-    }
-
-    /**
-     * setUp() is run through parent::__construct()
-     *
-     * @return void
-     */
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->columns(2);
-        $this->schema(
-            $this->getSchema()
-        );
     }
 
     /**
@@ -128,21 +77,16 @@ class Typo3AccessTab extends Tab
     }
 
     /**
-     * Check if whether a field is hidden
+     * @param BackedEnum|string $fieldName
      *
-     * @param FieldsEnum|string $fieldName
-     *
-     * @return bool true if hidden, false if not hidden
+     * @return BackedEnum
      */
-    protected function isFieldHidden(FieldsEnum|string $fieldName): bool
+    protected function evaluateEnum(BackedEnum|string $fieldName): BackedEnum
     {
-        if (is_string($fieldName)) {
-            $fieldName = FieldsEnum::from($fieldName);
+        if (!$fieldName instanceof FieldsEnum) {
+            return FieldsEnum::from($fieldName);
         }
 
-        return in_array(
-            needle: $fieldName,
-            haystack: $this->getExclude()
-        );
+        return $fieldName;
     }
 }
