@@ -84,12 +84,12 @@ class SlugInput extends TextInput
      */
     public static function getSlugHandlerFunction(): Closure
     {
-        return function (Get $get, Set $set, null|string $state): string {
-            if (empty($get('slug'))) {
-                $set('slug', Str::slug($state));
+        return function (Get $get, Set $set, null|string $state, string $column = 'slug'): string {
+            if (empty($get($column))) {
+                $set($column, Str::slug($state));
             }
 
-            return $get('slug');
+            return $get($column);
         };
     }
 }
