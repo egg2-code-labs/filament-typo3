@@ -17,10 +17,11 @@ composer require egg2-code-labs/filament-typo3
 
 ## TYPO3 Access Tab
 
-The TYPO3 Access Tab feature consists of 2 parts:
+The TYPO3 Access Tab feature consists of multiple parts:
 
 1. Migration helpers
 2. Filament component
+3. Query scope
 
 Make use of the migration helpers to get all the required fields:
 
@@ -39,6 +40,8 @@ public function up(): void
 Then, in your filament resource add the form component:
 
 ```php
+use Egg2CodeLabs\FilamentTypo3\Typo3AccessTabFieldsEnum;
+
 public static function form(Form $form): Form
 {
     return $form
@@ -51,6 +54,17 @@ public static function form(Form $form): Form
                         ])
                 ])
         ]);
+}
+```
+
+And finally add the query scope to all the necessary models:
+
+```php
+use Egg2CodeLabs\FilamentTypo3\Scopes\Typo3AccessScope;
+
+protected static function booted(): void
+{
+    static::addGlobalScope(new Typo3AccessScope());
 }
 ```
 
