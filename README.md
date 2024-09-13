@@ -40,7 +40,7 @@ public function up(): void
 Then, in your filament resource add the form component:
 
 ```php
-use Egg2CodeLabs\FilamentTypo3\Typo3AccessTabFieldsEnum;
+use Egg2CodeLabs\FilamentTypo3\Forms\Components\Typo3AccessTabFieldsEnum;
 
 public static function form(Form $form): Form
 {

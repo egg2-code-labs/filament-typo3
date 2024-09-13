@@ -1,6 +1,6 @@
 <?php
 
-namespace Egg2CodeLabs\FilamentTypo3;
+namespace Egg2CodeLabs\FilamentTypo3\Forms\Components;
 
 enum Typo3AccessTabFieldsEnum: string
 {

@@ -2,14 +2,13 @@
 
 namespace Egg2CodeLabs\FilamentTypo3\Forms\Components;
 
-use Egg2CodeLabs\FilamentTypo3\Typo3AccessTabFieldsEnum as FieldsEnum;
+use BackedEnum;
+use Egg2CodeLabs\FilamentTypo3\Forms\Components\Typo3AccessTabFieldsEnum as FieldsEnum;
 use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Section;
-use Filament\Forms\Components\Tabs\Tab;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Set;
-use BackedEnum;
 
 class Typo3AccessTab extends AbstractCustomTab
 {
