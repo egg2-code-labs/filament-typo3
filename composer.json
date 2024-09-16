@@ -3,6 +3,7 @@
   "description": "Bring some Typo3 functions to Filament PHP.",
   "type": "library",
   "version": "1.0.0",
+  "license": "MIT",
   "require": {
     "filament/filament": "^3.0",
     "spatie/laravel-package-tools": "^1.16"

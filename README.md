@@ -89,4 +89,4 @@ with. Just create a pull request or issue and I'll do my best to reply fast.
 
 ## License
 
-The MIT License (MIT). Please see [License File](LICENSE) for more information.
+The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
