@@ -2,17 +2,21 @@
 
 namespace Egg2CodeLabs\FilamentTypo3\Traits;
 
+use Closure;
 use Egg2CodeLabs\FilamentTypo3\PageTree;
 use Exception;
 use Filament\Pages\Page;
+use Filament\Support\Concerns\EvaluatesClosures;
 use ReflectionClass;
 
 trait HasPageTree
 {
+    use EvaluatesClosures;
+
     /**
      * @var bool
      */
-    public static bool $hasSidebar = true;
+    public static bool|Closure $hasSidebar = true;
 
     /**
      * @return PageTree
@@ -28,8 +32,8 @@ trait HasPageTree
      */
     public function bootHasPageTree(): void
     {
-        if (static::$hasSidebar) {
-            static::${'view'} = 'filament-typo3::proxy';
+        if (static::evaluate(static::$hasSidebar)) {
+            static::$view = 'filament-typo3::proxy';
         }
     }
 
@@ -60,7 +64,7 @@ trait HasPageTree
      */
     public function getSidebarWidths(): array
     {
-        return config('filament-typo3   .sidebar_width') ?? [
+        return config('filament-typo3.sidebar_width') ?? [
             'sm' => 12,
             'md' => 3,
             'lg' => 3,

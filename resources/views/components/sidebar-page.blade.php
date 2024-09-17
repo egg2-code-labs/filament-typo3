@@ -41,7 +41,9 @@
                     </div>
                     <ul class="@if ($sidebar->getTitle() != null || $sidebar->getDescription() != null) mt-4 @endif space-y-2 font-inter font-medium"
                         wire:ignore>
-                        Here would he a page tree now
+                        @foreach($sidebar->getPages() as $page)
+                            <livewire:filament-typo3::page-tree-page :page="$page" :is-open="true" />
+                        @endforeach
                     </ul>
                 </div>
             </div>

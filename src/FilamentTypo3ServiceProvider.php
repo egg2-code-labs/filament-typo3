@@ -3,7 +3,11 @@
 namespace Egg2CodeLabs\FilamentTypo3;
 
 use Egg2CodeLabs\FilamentTypo3\Database\Schema\BlueprintMixin;
+use Egg2CodeLabs\FilamentTypo3\Livewire\PageTree\Page;
+use Filament\Support\Assets\Css;
+use Filament\Support\Facades\FilamentAsset;
 use Illuminate\Database\Schema\Blueprint;
+use Livewire\Livewire;
 use ReflectionException;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
@@ -41,7 +45,18 @@ class FilamentTypo3ServiceProvider extends PackageServiceProvider
             ->hasTranslations()
             ->publishesServiceProvider(self::class)
             ->hasViews()
+            ->hasAssets()
             ->hasViewComponents('filament-typo3');
+
+        FilamentAsset::register(
+            assets: [
+                Css::make(
+                    id: 'filament-typo3',
+                    path: __DIR__ . '/../resources/dist/app.css'
+                ),
+            ],
+            package: 'egg2-code-labs/filament-typo3'
+        );
     }
 
     /**
@@ -53,5 +68,17 @@ class FilamentTypo3ServiceProvider extends PackageServiceProvider
     public function packageBooted(): void
     {
         Blueprint::mixin(new BlueprintMixin());
+    }
+
+    public function bootingPackage(): void
+    {
+        parent::bootingPackage();
+
+        $this->registerLivewireComponents();
+    }
+
+    public function registerLivewireComponents(): void
+    {
+        Livewire::component('filament-typo3::page-tree-page', Page::class);
     }
 }

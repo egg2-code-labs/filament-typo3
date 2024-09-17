@@ -7,7 +7,8 @@
   "require": {
     "filament/filament": "^3.0",
     "spatie/laravel-package-tools": "^1.16",
-    "aymanalhattami/filament-page-with-sidebar": "^2.5"
+    "aymanalhattami/filament-page-with-sidebar": "^2.5",
+    "livewire/livewire": "^3.0"
   },
   "require-dev": {
     "laravel/pint": "^1.14",

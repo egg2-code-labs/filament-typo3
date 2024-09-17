@@ -90,3 +90,9 @@ with. Just create a pull request or issue and I'll do my best to reply fast.
 ## License
 
 The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
+
+## Attribution
+
+Some components of this package are based on one or more of the following pieces of software:
+
++ https://github.com/aymanalhattami/filament-page-with-sidebar
