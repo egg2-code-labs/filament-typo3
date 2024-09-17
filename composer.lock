@@ -4,7 +4,7 @@
     "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
     "This file is @generated automatically"
   ],
-  "content-hash": "6c9bdc2ece995c3c072dccaa773cc07a",
+  "content-hash": "a27a768ad8ed7f61cbb2e4c6f33c3c3e",
   "packages": [
     {
       "name": "anourvalar/eloquent-serialize",
@@ -71,6 +71,55 @@
         "source": "https://github.com/AnourValar/eloquent-serialize/tree/1.2.24"
       },
       "time": "2024-09-08T15:57:08+00:00"
+    },
+    {
+      "name": "aymanalhattami/filament-page-with-sidebar",
+      "version": "2.5.3",
+      "source": {
+        "type": "git",
+        "url": "https://github.com/aymanalhattami/filament-page-with-sidebar.git",
+        "reference": "0072b6a7f1b33e231fcbeb12a1080e01592f686b"
+      },
+      "dist": {
+        "type": "zip",
+        "url": "https://api.github.com/repos/aymanalhattami/filament-page-with-sidebar/zipball/0072b6a7f1b33e231fcbeb12a1080e01592f686b",
+        "reference": "0072b6a7f1b33e231fcbeb12a1080e01592f686b",
+        "shasum": ""
+      },
+      "require": {
+        "filament/filament": "^3.0",
+        "laravel/framework": "^10.0|^11.0",
+        "spatie/laravel-package-tools": "^1.0"
+      },
+      "type": "library",
+      "extra": {
+        "laravel": {
+          "providers": [
+            "AymanAlhattami\\FilamentPageWithSidebar\\FilamentPageWithSidebarServiceProvider"
+          ]
+        }
+      },
+      "autoload": {
+        "psr-4": {
+          "AymanAlhattami\\FilamentPageWithSidebar\\": "src/"
+        }
+      },
+      "notification-url": "https://packagist.org/downloads/",
+      "license": [
+        "MIT"
+      ],
+      "authors": [
+        {
+          "name": "Ayman Alhattami",
+          "email": "ayman.m.alhattami@gmail.com"
+        }
+      ],
+      "description": "Organize resource pages in sidebar instead of putting all the buttons and links elsewhere in order to make navigation between pages more comfortable.",
+      "support": {
+        "issues": "https://github.com/aymanalhattami/filament-page-with-sidebar/issues",
+        "source": "https://github.com/aymanalhattami/filament-page-with-sidebar/tree/2.5.3"
+      },
+      "time": "2024-09-11T08:50:53+00:00"
     },
     {
       "name": "blade-ui-kit/blade-heroicons",

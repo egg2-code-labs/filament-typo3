@@ -40,7 +40,8 @@ class FilamentTypo3ServiceProvider extends PackageServiceProvider
             ->name('filament-typo3')
             ->hasTranslations()
             ->publishesServiceProvider(self::class)
-            ->hasViews();
+            ->hasViews()
+            ->hasViewComponents('filament-typo3');
     }
 
     /**
