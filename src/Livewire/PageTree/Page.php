@@ -37,7 +37,7 @@ class Page extends Component
      */
     public function render(): View
     {
-        return view('filament-typo3::page-tree.page');
+        return view('filament-typo3::components.page-tree.page');
     }
 
     /**
@@ -46,10 +46,20 @@ class Page extends Component
     #[Computed]
     public function page(): PageModel
     {
-        return PageModel::query()
+        $page = PageModel::query()
+            ->withoutGlobalScopes()
             ->where('id', $this->pageId)
-            ->with('children')
+            ->orderBy('sorting')
             ->first();
+
+        $children = $page
+            ->children()
+            ->withoutGlobalScopes()
+            ->get();
+
+        $page->setRelation('children', $children);
+
+        return $page;
     }
 
     /**

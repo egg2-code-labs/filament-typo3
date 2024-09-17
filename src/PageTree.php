@@ -4,6 +4,7 @@ namespace Egg2CodeLabs\FilamentTypo3;
 
 use App\Models\Page;
 use Closure;
+use Egg2CodeLabs\FilamentTypo3\Scopes\Typo3AccessScope;
 use Filament\Support\Concerns\EvaluatesClosures;
 use Illuminate\Support\Collection;
 
@@ -81,6 +82,9 @@ class PageTree
     public function getPages(): Collection
     {
         return Page::query()
+            ->withoutGlobalScopes([
+                Typo3AccessScope::class
+            ])
             ->select(['id'])
             ->where('pid', 0)
             ->with('children')
