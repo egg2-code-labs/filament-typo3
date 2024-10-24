@@ -65,6 +65,7 @@ class SlugInput extends TextInput
             ->suffixAction(
                 Action::make('refreshSlugs')
                     ->icon('heroicon-o-arrow-path')
+                    ->tooltip(__('Refresh slug'))
                     ->requiresConfirmation()
                     ->action(fn (Set $set, Get $get, mixed $state) => $set('slug', Str::slug($get($this->sourceColumn))))
             )
