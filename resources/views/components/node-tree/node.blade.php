@@ -1,7 +1,7 @@
 <div class="node">
-    {{--    TODO: re-render the page tree when a page changes--}}
-    {{--    TODO: build two main modules into the main navigation: Page & List, functioning like the TYPO3 modules--}}
-    {{--    TODO: build click action on node title & click context menu on node icon--}}
+    {{-- TODO: re-render the page tree when a page changes --}}
+    {{-- TODO: build two main modules into the main navigation: Page & List, functioning like the TYPO3 modules --}}
+    {{-- TODO: build click action on node title & click context menu on node icon --}}
     <div class="node-line flex gap-2">
         @if($this->node->children_count > 0)
             <button wire:click="toggle">
@@ -14,14 +14,20 @@
         @endif
         <div @class([
             'title',
-            'ml-6' => !$this->node->hasChildren(),
+            'ml-6' => !$this->node->children_count > 0,
             'flex gap-2 items-center'
             ])
         >
-            <div class="title-icon size-4">
-                <x-filament-typo3::node-tree.icon-proxy :doctype="$this->node->doctype" />
-            </div>
-            <div class="title-text">{{ $this->node->title }}</div>
+            <button class="title-icon size-4 cursor-pointer" wire:click.debounce="onIconClick">
+                {{-- TODO: add disabled indicator icon --}}
+                <x-filament-typo3::node-tree.icon-proxy
+                    :doctype="$this->node->doctype"
+                    :is-hidden="$this->node->hidden"
+                />
+            </button>
+            <button class="title-text cursor-pointer" wire:click.debounce="onLabelClick">
+                {{ $this->node->title }}
+            </button>
         </div>
     </div>
 

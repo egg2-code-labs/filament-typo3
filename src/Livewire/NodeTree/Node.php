@@ -7,6 +7,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Collection;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Locked;
+use Livewire\Attributes\Renderless;
 use Livewire\Component;
 
 class Node extends Component
@@ -29,7 +30,7 @@ class Node extends Component
     /**
      * @var string[]
      */
-    private static $defaultSelect = ['id', 'doctype', 'title'];
+    private static $defaultSelect = ['id', 'doctype', 'title', 'hidden'];
 
     /**
      * @param HasExpandablesInterface $node
@@ -43,6 +44,7 @@ class Node extends Component
         $this->nodeModel = $node::class;
 
         $this->isRootNode = $isRootNode;
+
     }
 
     /**
@@ -111,17 +113,46 @@ class Node extends Component
         /**
          * Create DB entry when item is opened
          */
-        $attributesAndValues = [
-            'expandable_type' => $this->node()::class,
-            'expandable_id' => $this->node()->getKey(),
-            'user_id' => $user->id
-        ];
         if ($isOpen === true) {
+            $attributesAndValues = [
+                'expandable_type' => $this->node()::class,
+                'expandable_id' => $this->node()->getKey(),
+                'user_id' => $user->id
+            ];
             $user->expandables()
                 ->updateOrCreate(
                     attributes: $attributesAndValues,
                     values: $attributesAndValues
                 );
         }
+    }
+
+    /**
+     * @return array
+     */
+    private function getEventData(): array
+    {
+        return [
+            'nodeId' => $this->nodeId,
+            'nodeModel' => $this->nodeModel
+        ];
+    }
+
+    /**
+     * @return void
+     */
+    #[Renderless]
+    public function onLabelClick(): void
+    {
+        $this->dispatch('tree-node-clicked', data: $this->getEventData());
+    }
+
+    /**
+     * @return void
+     */
+    #[Renderless]
+    public function onIconClick(): void
+    {
+        $this->dispatch('tree-node-icon-clicked', data: $this->getEventData());
     }
 }
