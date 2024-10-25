@@ -21,14 +21,21 @@ trait HasPageTree
     /**
      * @return PageTree
      */
-    public static function getSidebar(): PageTree
+    public function getSidebar(): PageTree
     {
-        return PageTree::make();
+        return PageTree::make($this->getModel());
     }
 
     /**
-     * public function mountHasPageSidebar
-     * Register automatically view if available and activated
+     * @return string
+     */
+    public function getModel(): string
+    {
+        return static::getResource()::getModel();
+    }
+
+    /**
+     * Register view automatically if available and activated
      */
     public function bootHasPageTree(): void
     {
@@ -38,8 +45,7 @@ trait HasPageTree
     }
 
     /**
-     * public function getIncludedSidebarView
-     * Return the view that will be used in the sidebar proxy.
+     * Return view used in sidebar proxy
      *
      * @return string \Filament\Pages\Page View to be included
      * @throws Exception

@@ -22,10 +22,11 @@
                 <x-filament-typo3::page-tree.icon-proxy :doctype="$this->page->doctype" />
             </div>
             <div class="title-text">{{ $this->page->title }}</div>
+            {{--            @dump(session()->all())--}}
         </div>
     </div>
 
-    @if ($this->isOpen)
+    @if ($this->isOpen || $this->isRootPage)
         <div class="children ml-4">
             @foreach($this->page->children as $child)
                 <livewire:filament-typo3::page-tree-page :page="$child" />

@@ -44,6 +44,10 @@ class FilamentTypo3ServiceProvider extends PackageServiceProvider
             ->name('filament-typo3')
             ->hasTranslations()
             ->publishesServiceProvider(self::class)
+            ->hasMigrations([
+                '2024_10_25_create_filament_typo3_expandable_state_table'
+            ])
+            ->runsMigrations()
             ->hasViews()
             ->hasAssets()
             ->hasViewComponents('filament-typo3');

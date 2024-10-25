@@ -6,6 +6,7 @@ use App\Models\Page;
 use Closure;
 use Egg2CodeLabs\FilamentTypo3\Scopes\Typo3AccessScope;
 use Filament\Support\Concerns\EvaluatesClosures;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 
 class PageTree
@@ -14,25 +15,31 @@ class PageTree
 
     protected string|Closure|null $title = null;
     protected string|Closure|null $description = null;
+    protected string|Closure|null $model = null;
 
     /**
      * @param string|null $title
      * @param string|null $description
+     * @param string|null $model
      */
-    public function __construct(null|string $title = null, null|string $description = null)
+    public function __construct(null|string $title = null, null|string $description = null, null|string $model = null)
     {
         $this->title = $title;
         $this->description = $description;
+        $this->model = $model;
     }
 
     /**
+     * @param string|Closure|null $model
+     *
      * @return static
      */
-    public static function make(): static
+    public static function make(string|Closure|null $model = null): static
     {
         return new static(
             title: 'Pages',
-            description: 'Tree of pages'
+            description: 'Tree of pages',
+            model: $model
         );
     }
 
@@ -77,11 +84,34 @@ class PageTree
     }
 
     /**
+     * @param string $model
+     *
+     * @return $this
+     */
+    public function setModel(string $model): static
+    {
+        $this->model = $model;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getModel(): string
+    {
+        return $this->evaluate($this->model);
+    }
+
+    /**
      * @return Collection<Page>
      */
     public function getPages(): Collection
     {
-        return Page::query()
+        /** @var Model $model */
+        $model = $this->getModel();
+
+        return $model::query()
             ->withoutGlobalScopes([
                 Typo3AccessScope::class
             ])
