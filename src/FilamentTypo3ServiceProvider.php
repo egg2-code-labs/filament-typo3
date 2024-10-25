@@ -3,7 +3,7 @@
 namespace Egg2CodeLabs\FilamentTypo3;
 
 use Egg2CodeLabs\FilamentTypo3\Database\Schema\BlueprintMixin;
-use Egg2CodeLabs\FilamentTypo3\Livewire\PageTree\Page;
+use Egg2CodeLabs\FilamentTypo3\Livewire\NodeTree\Node;
 use Filament\Support\Assets\Css;
 use Filament\Support\Facades\FilamentAsset;
 use Illuminate\Database\Schema\Blueprint;
@@ -83,6 +83,6 @@ class FilamentTypo3ServiceProvider extends PackageServiceProvider
 
     public function registerLivewireComponents(): void
     {
-        Livewire::component('filament-typo3::page-tree-page', Page::class);
+        Livewire::component('filament-typo3::node-tree-node', Node::class);
     }
 }

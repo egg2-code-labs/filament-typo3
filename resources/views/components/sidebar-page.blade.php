@@ -39,8 +39,8 @@
                     </div>
                     <ul class="@if ($sidebar->getTitle() != null || $sidebar->getDescription() != null) mt-4 @endif space-y-2 font-inter font-medium"
                         wire:ignore>
-                        @foreach($sidebar->getPages() as $page)
-                            <livewire:filament-typo3::page-tree-page :page="$page" :is-root-page="true" />
+                        @foreach($sidebar->getNodes() as $page)
+                            <livewire:filament-typo3::node-tree-node :node="$page" :is-root-node="true" />
                         @endforeach
                     </ul>
                 </div>

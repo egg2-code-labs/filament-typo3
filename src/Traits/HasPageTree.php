@@ -3,7 +3,7 @@
 namespace Egg2CodeLabs\FilamentTypo3\Traits;
 
 use Closure;
-use Egg2CodeLabs\FilamentTypo3\PageTree;
+use Egg2CodeLabs\FilamentTypo3\NodeTree;
 use Exception;
 use Filament\Pages\Page;
 use Filament\Support\Concerns\EvaluatesClosures;
@@ -19,11 +19,11 @@ trait HasPageTree
     public static bool|Closure $hasSidebar = true;
 
     /**
-     * @return PageTree
+     * @return NodeTree
      */
-    public function getSidebar(): PageTree
+    public function getSidebar(): NodeTree
     {
-        return PageTree::make($this->getModel());
+        return NodeTree::make($this->getModel());
     }
 
     /**

@@ -2,14 +2,14 @@
 
 namespace Egg2CodeLabs\FilamentTypo3;
 
-use App\Models\Page;
 use Closure;
+use Egg2CodeLabs\FilamentTypo3\Interfaces\HasExpandablesInterface;
 use Egg2CodeLabs\FilamentTypo3\Scopes\Typo3AccessScope;
 use Filament\Support\Concerns\EvaluatesClosures;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 
-class PageTree
+class NodeTree
 {
     use EvaluatesClosures;
 
@@ -104,9 +104,9 @@ class PageTree
     }
 
     /**
-     * @return Collection<Page>
+     * @return Collection<HasExpandablesInterface>
      */
-    public function getPages(): Collection
+    public function getNodes(): Collection
     {
         /** @var Model $model */
         $model = $this->getModel();

@@ -1,9 +1,9 @@
-<div class="page">
+<div class="node">
     {{--    TODO: store state of the page tree into the user session/profile so it is the same after page reload--}}
     {{--    TODO: re-render the page tree when a page changes--}}
     {{--    TODO: build two main modules into the main navigation: Page & List, functioning like the TYPO3 modules--}}
     <div class="page-line flex gap-2">
-        @if($this->page->hasChildren())
+        @if($this->node->hasChildren())
             <button wire:click="toggle">
                 @if ($this->isOpen)
                     <x-heroicon-s-chevron-down class="size-4" />
@@ -14,22 +14,22 @@
         @endif
         <div @class([
             'title',
-            'ml-6' => !$this->page->hasChildren(),
+            'ml-6' => !$this->node->hasChildren(),
             'flex gap-2 items-center'
             ])
         >
             <div class="title-icon size-4">
-                <x-filament-typo3::page-tree.icon-proxy :doctype="$this->page->doctype" />
+                <x-filament-typo3::node-tree.icon-proxy :doctype="$this->node->doctype" />
             </div>
-            <div class="title-text">{{ $this->page->title }}</div>
+            <div class="title-text">{{ $this->node->title }}</div>
             {{--            @dump(session()->all())--}}
         </div>
     </div>
 
-    @if ($this->isOpen || $this->isRootPage)
+    @if ($this->isOpen || $this->isRootNode)
         <div class="children ml-4">
-            @foreach($this->page->children as $child)
-                <livewire:filament-typo3::page-tree-page :page="$child" />
+            @foreach($this->node->children as $child)
+                <livewire:filament-typo3::node-tree-node :node="$child" />
             @endforeach
         </div>
     @endif
