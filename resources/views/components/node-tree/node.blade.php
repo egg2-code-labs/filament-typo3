@@ -1,8 +1,7 @@
 <div class="node">
-    {{--    TODO: store state of the page tree into the user session/profile so it is the same after page reload--}}
     {{--    TODO: re-render the page tree when a page changes--}}
     {{--    TODO: build two main modules into the main navigation: Page & List, functioning like the TYPO3 modules--}}
-    <div class="page-line flex gap-2">
+    <div class="node-line flex gap-2">
         @if($this->node->hasChildren())
             <button wire:click="toggle">
                 @if ($this->isOpen)
