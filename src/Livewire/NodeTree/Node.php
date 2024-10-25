@@ -4,6 +4,7 @@ namespace Egg2CodeLabs\FilamentTypo3\Livewire\NodeTree;
 
 use Egg2CodeLabs\FilamentTypo3\Interfaces\HasExpandablesInterface;
 use Illuminate\Contracts\View\View;
+use Illuminate\Database\Eloquent\Collection;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Locked;
 use Livewire\Component;
@@ -24,6 +25,11 @@ class Node extends Component
      */
     #[Locked]
     public bool $isRootNode = false;
+
+    /**
+     * @var string[]
+     */
+    private static $defaultSelect = ['id', 'doctype', 'title'];
 
     /**
      * @param HasExpandablesInterface $node
@@ -53,26 +59,31 @@ class Node extends Component
     #[Computed]
     public function node(): HasExpandablesInterface
     {
-        $node = $this->nodeModel::query()
+        return $this->nodeModel::query()
+            ->select(static::$defaultSelect)
             ->withoutGlobalScopes()
             ->where('id', $this->nodeId)
             ->orderBy('sorting')
+            ->withCount('children')
             ->first();
+    }
 
-        $children = $node
-            ->children()
+    #[Computed]
+    public function children(): Collection
+    {
+        return $this->nodeModel::query()
+            ->select(static::$defaultSelect)
             ->withoutGlobalScopes()
+            ->where('pid', $this->nodeId)
+            ->orderBy('sorting')
             ->get();
-
-        $node->setRelation('children', $children);
-
-        return $node;
     }
 
     #[Computed]
     public function isOpen(): bool
     {
-        return auth()->user()->expandables()
+        return auth()->user()
+            ->expandables()
             ->where('expandable_type', $this->node()::class)
             ->where('expandable_id', $this->node()->getKey())
             ->exists();
@@ -100,19 +111,16 @@ class Node extends Component
         /**
          * Create DB entry when item is opened
          */
+        $attributesAndValues = [
+            'expandable_type' => $this->node()::class,
+            'expandable_id' => $this->node()->getKey(),
+            'user_id' => $user->id
+        ];
         if ($isOpen === true) {
             $user->expandables()
                 ->updateOrCreate(
-                    attributes: [
-                        'expandable_type' => $this->node()::class,
-                        'expandable_id' => $this->node()->getKey(),
-                        'user_id' => $user->id
-                    ],
-                    values: [
-                        'expandable_type' => $this->node()::class,
-                        'expandable_id' => $this->node()->getKey(),
-                        'user_id' => $user->id
-                    ]
+                    attributes: $attributesAndValues,
+                    values: $attributesAndValues
                 );
         }
     }
