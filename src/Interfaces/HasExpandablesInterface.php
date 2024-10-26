@@ -25,4 +25,9 @@ interface HasExpandablesInterface
      * @return bool
      */
     public function hasChildren(): bool;
+
+    /**
+     * @return string
+     */
+    public static function getFilamentResource(): string;
 }

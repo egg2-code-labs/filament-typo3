@@ -18,13 +18,18 @@
             'flex gap-2 items-center'
             ])
         >
-            <button class="title-icon size-4 cursor-pointer" wire:click.debounce="onIconClick">
-                {{-- TODO: add disabled indicator icon --}}
-                <x-filament-typo3::node-tree.icon-proxy
-                    :doctype="$this->node->doctype"
-                    :is-hidden="$this->node->hidden"
-                />
-            </button>
+
+            <x-filament-typo3::node-tree.node-context-menu :actions="$this->nodeActions">
+                <button class="title-icon size-4 cursor-pointer">
+                    {{-- TODO: add disabled indicator icon --}}
+                    {{-- TODO: for more flexible use icons need to be extendable --}}
+                    <x-filament-typo3::node-tree.icon-proxy
+                        :doctype="$this->node->doctype"
+                        :is-hidden="$this->node->hidden"
+                    />
+                </button>
+            </x-filament-typo3::node-tree.node-context-menu>
+
             <button class="title-text cursor-pointer" wire:click.debounce="onLabelClick">
                 {{ $this->node->title }}
             </button>

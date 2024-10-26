@@ -3,12 +3,16 @@
 namespace Egg2CodeLabs\FilamentTypo3\Livewire\NodeTree;
 
 use Egg2CodeLabs\FilamentTypo3\Interfaces\HasExpandablesInterface;
+use Egg2CodeLabs\FilamentTypo3\Models\ContextAction;
+use Filament\Resources\Resource;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Locked;
 use Livewire\Attributes\Renderless;
 use Livewire\Component;
+use Throwable;
 
 class Node extends Component
 {
@@ -27,6 +31,9 @@ class Node extends Component
     #[Locked]
     public bool $isRootNode = false;
 
+    #[Locked]
+    public string $resource;
+
     /**
      * @var string[]
      */
@@ -42,9 +49,9 @@ class Node extends Component
     {
         $this->nodeId = $node->getKey();
         $this->nodeModel = $node::class;
+        $this->resource = $node::getFilamentResource();
 
         $this->isRootNode = $isRootNode;
-
     }
 
     /**
@@ -92,6 +99,46 @@ class Node extends Component
     }
 
     /**
+     * @return array Array of actions
+     */
+    #[Computed]
+    public function nodeActions(): array
+    {
+        /** @var Resource $resource */
+        $resource = $this->resource;
+        $record = $this->node;
+
+        return [
+            ContextAction::make('Edit')
+                ->label(__('Edit'))
+                ->icon('heroicon-o-pencil')
+                ->color('white')
+                ->url(fn() => $resource::getUrl('edit', ['record' => $this->node])),
+            ContextAction::make('Disable')
+                ->label(fn() => $record->hidden === false ? __('Disable') : __('Enable'))
+                ->icon(fn() => $record->hidden === false ? 'heroicon-o-x-circle' : 'heroicon-o-check-circle')
+                ->color('white')
+                ->action("toggleRecordHidden")
+        ];
+    }
+
+    /**
+     * @throws Throwable
+     */
+    public function toggleRecordHidden(): void
+    {
+        /** @var Model $record */
+        $record = $this->node;
+
+        if ($record->hasAttribute('hidden')) {
+            $record->updateOrFail([
+                'hidden' => !$record->hidden
+            ]);
+            // TODO: depending on the view, the whole UI might need to refresh
+        }
+    }
+
+    /**
      * @return void
      */
     public function toggle(): void
@@ -134,7 +181,8 @@ class Node extends Component
     {
         return [
             'nodeId' => $this->nodeId,
-            'nodeModel' => $this->nodeModel
+            'nodeModel' => $this->nodeModel,
+            'isRootNode' => $this->isRootNode,
         ];
     }
 
@@ -153,6 +201,6 @@ class Node extends Component
     #[Renderless]
     public function onIconClick(): void
     {
-        $this->dispatch('tree-node-icon-clicked', data: $this->getEventData());
+        $this->dispatch("tree-node-icon-clicked", data: $this->getEventData());
     }
 }
