@@ -2,7 +2,7 @@
   "name": "egg2-code-labs/filament-typo3",
   "description": "Bring some Typo3 functions to Filament PHP.",
   "type": "library",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "license": "MIT",
   "require": {
     "filament/filament": "^3.0",
