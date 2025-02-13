@@ -42,6 +42,7 @@ class FilamentTypo3ServiceProvider extends PackageServiceProvider
          */
         $package
             ->name('filament-typo3')
+            ->hasConfigFile()
             ->hasTranslations()
             ->publishesServiceProvider(self::class)
             ->hasMigrations([

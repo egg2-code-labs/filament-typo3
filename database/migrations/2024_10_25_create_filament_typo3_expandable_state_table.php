@@ -12,8 +12,10 @@ return new class () extends Migration {
      */
     public function up(): void
     {
-        Schema::create(self::TABLE_NAME, function (Blueprint $table) {
-            $table->id();
+        $keyType = config('filament-typo3.migrations.keyType');
+
+        Schema::create(self::TABLE_NAME, function (Blueprint $table) use ($keyType) {
+            $table->{$keyType}('id')->primary;
 
             $table->string('user_id');
             $table->morphs('expandable');
