@@ -15,7 +15,7 @@ return new class () extends Migration {
         Schema::create(self::TABLE_NAME, function (Blueprint $table) {
             $table->id();
 
-            $table->unsignedBigInteger('user_id');
+            $table->string('user_id');
             $table->morphs('expandable');
             $table->timestamps();
 
