@@ -68,6 +68,29 @@ protected static function booted(): void
 }
 ```
 
+## Factories
+
+Laravel factories support state manipulation methods to allow for discrete modifications. The `Typo3FactoryStatesTrait`
+provides an easy way to get a few simple modifications going. Add this trait to your factory classes.
+
+### Available methods
+
+#### `Typo3FactoryStatesTrait::published()`
+
+This method creates a non-hidden, non-time-constrained element.
+
+#### `Typo3FactoryStatesTrait::hiddenInNav()`
+
+This method creates an element that is hidden in the navigation.
+
+#### `Typo3FactoryStatesTrait::expired()`
+
+This method creates non-hidden, time-constrained element, which has an `endtime` one week before `now()`.
+
+#### `Typo3FactoryStatesTrait::scheduled()`
+
+This method creates non-hidden, time-constrained element, which has a `starttime` one week after `now()`.
+
 ## Testing
 
 ```bash
