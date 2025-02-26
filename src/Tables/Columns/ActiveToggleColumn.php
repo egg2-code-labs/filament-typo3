@@ -30,12 +30,16 @@ class ActiveToggleColumn extends ToggleColumn
 
         $this
             ->label('Active')
-            ->getStateUsing(fn ($record): bool => !($record?->hidden === true))
-            ->updateStateUsing(function ($record, $state) {
-                $record->update([
-                    $this->getName() => !($state === true) // Invert the toggle column value for better UX
-                ]);
-            })
+            ->getStateUsing(
+                callback: fn ($record): bool => !($record?->{$this->getName()} === true)
+            )
+            ->updateStateUsing(
+                callback: function ($record, $state) {
+                    $record->update([
+                        $this->getName() => !($state === true) // Invert the toggle column value for better UX
+                    ]);
+                }
+            )
             ->sortable();
     }
 }

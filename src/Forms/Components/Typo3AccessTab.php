@@ -26,6 +26,8 @@ class Typo3AccessTab extends AbstractCustomTab
      * Get the schema for the whole tab
      *
      * @return array
+     *
+     * TODO: try to make this look at the DB schema for the model and hide fields automatically
      */
     protected function getSchema(): array
     {
