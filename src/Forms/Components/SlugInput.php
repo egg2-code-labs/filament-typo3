@@ -61,17 +61,24 @@ class SlugInput extends TextInput
 
         $this
             ->unique(ignoreRecord: true)
-            ->prefix(config('app.url').'/')
+            ->prefix(config('app.url') . '/')
             ->suffixAction(
                 Action::make('refreshSlugs')
                     ->icon('heroicon-o-arrow-path')
                     ->tooltip(__('Refresh slug'))
                     ->requiresConfirmation()
-                    ->action(fn (Set $set, Get $get, mixed $state) => $set('slug', Str::slug($get($this->sourceColumn))))
+                    ->action(
+                        fn (Set $set, Get $get, mixed $state) => $set(
+                            path: $this->name,
+                            state: Str::slug($get($this->sourceColumn))
+                        )
+                    )
             )
             ->required()
             ->unique(
-                table: fn () => $this->table,
+                table: function () {
+                    return $this->table;
+                },
                 ignoreRecord: true
             )
             ->string()
