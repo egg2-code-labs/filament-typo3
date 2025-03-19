@@ -25,16 +25,23 @@ class FormBuilder extends Builder
     {
         return [
             Fieldset::make(__('Common fields'))
-                ->columns(1)
+                ->columns(2)
                 ->columnSpan(1)
                 ->schema([
                     TextInput::make('name')
                         ->required()
-                        ->alphaDash(),
-                    TextInput::make('hint')
-                        ->label(__('Hint / Description')),
+                        ->alphaDash()
+                        ->columnSpan(1),
                     Checkbox::make('required')
-                        ->inline(false),
+                        ->inline(false)
+                        ->columnSpan(1),
+                    TextInput::make('Label')
+                        ->label(__('Label'))
+                        ->required()
+                        ->columnSpan(2),
+                    TextInput::make('hint')
+                        ->label(__('Hint / Description'))
+                        ->columnSpan(2),
                 ]),
             Fieldset::make(__('Type specific fields'))
                 ->columns(1)
@@ -102,6 +109,14 @@ class FormBuilder extends Builder
      * @throws Exception
      */
     public function schema(array|Closure $components): static
+    {
+        throw new Exception('This method is not supported on the FormBuilder');
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function blocks(array|Closure $components): static
     {
         throw new Exception('This method is not supported on the FormBuilder');
     }
