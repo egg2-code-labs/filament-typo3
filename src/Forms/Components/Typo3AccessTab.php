@@ -3,7 +3,7 @@
 namespace Egg2CodeLabs\FilamentTypo3\Forms\Components;
 
 use BackedEnum;
-use Egg2CodeLabs\FilamentTypo3\Forms\Components\Typo3AccessTabFieldsEnum as FieldsEnum;
+use Egg2CodeLabs\FilamentTypo3\Forms\Components\Enums\Typo3AccessTabFieldsEnum as FieldsEnum;
 use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Section;

@@ -2,7 +2,7 @@
 
 namespace Egg2CodeLabs\FilamentTypo3\Scopes;
 
-use Egg2CodeLabs\FilamentTypo3\Forms\Components\Typo3AccessTabFieldsEnum;
+use Egg2CodeLabs\FilamentTypo3\Forms\Components\Enums\Typo3AccessTabFieldsEnum;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Scope;

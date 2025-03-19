@@ -76,9 +76,7 @@ class SlugInput extends TextInput
             )
             ->required()
             ->unique(
-                table: function () {
-                    return $this->table;
-                },
+                table: fn () => $this->table,
                 ignoreRecord: true
             )
             ->string()

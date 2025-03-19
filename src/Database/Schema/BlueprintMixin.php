@@ -3,7 +3,7 @@
 namespace Egg2CodeLabs\FilamentTypo3\Database\Schema;
 
 use Closure;
-use Egg2CodeLabs\FilamentTypo3\Forms\Components\Typo3AccessTabFieldsEnum;
+use Egg2CodeLabs\FilamentTypo3\Forms\Components\Enums\Typo3AccessTabFieldsEnum;
 
 class BlueprintMixin
 {
