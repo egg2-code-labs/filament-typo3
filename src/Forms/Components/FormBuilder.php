@@ -35,7 +35,7 @@ class FormBuilder extends Builder
                     Checkbox::make('required')
                         ->inline(false)
                         ->columnSpan(1),
-                    TextInput::make('Label')
+                    TextInput::make('label')
                         ->label(__('Label'))
                         ->required()
                         ->columnSpan(2),
