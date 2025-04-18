@@ -31,6 +31,7 @@ class Typo3AccessScope implements Scope
     public function apply(Builder $builder, Model $model): void
     {
         $now = now();
+        $table = $model->getTable();
 
         $builder
             /**
@@ -38,8 +39,8 @@ class Typo3AccessScope implements Scope
              */
             ->when(
                 value: fn () => $this->disabledFields->doesntContain(Typo3AccessTabFieldsEnum::HIDDEN),
-                callback: function (Builder $query) {
-                    return $query->where('hidden', false);
+                callback: function (Builder $query) use ($table) {
+                    return $query->where("{$table}.hidden", 'false');
                 }
             )
             /**
@@ -47,11 +48,11 @@ class Typo3AccessScope implements Scope
              */
             ->when(
                 value: fn () => $this->disabledFields->doesntContain(Typo3AccessTabFieldsEnum::STARTTIME),
-                callback: function (Builder $query) use ($now) {
-                    return $query->where(function (Builder $query) use ($now) {
+                callback: function (Builder $query) use ($now, $table) {
+                    return $query->where(function (Builder $query) use ($now, $table) {
                         return $query
-                            ->whereNull('starttime')
-                            ->orWhere('starttime', '<', $now);
+                            ->whereNull("{$table}.starttime")
+                            ->orWhere("{$table}.starttime", '<', $now);
                     });
                 }
             )
@@ -60,18 +61,18 @@ class Typo3AccessScope implements Scope
              */
             ->when(
                 value: fn () => $this->disabledFields->doesntContain(Typo3AccessTabFieldsEnum::ENDTIME),
-                callback: function (Builder $query) use ($now) {
-                    return $query->where(function (Builder $query) use ($now) {
+                callback: function (Builder $query) use ($now, $table) {
+                    return $query->where(function (Builder $query) use ($now, $table) {
                         return $query
-                            ->whereNull('endtime')
-                            ->orWhere('endtime', '>', $now);
+                            ->whereNull("{$table}.endtime")
+                            ->orWhere("{$table}.endtime", '>', $now);
                     });
                 }
             )
             ->when(
                 value: fn () => $this->sorting === true,
-                callback: function (Builder $query) {
-                    return $query->orderBy('sorting', 'asc');
+                callback: function (Builder $query) use ($table) {
+                    return $query->orderBy("{$table}.sorting", 'asc');
                 }
             );
     }
