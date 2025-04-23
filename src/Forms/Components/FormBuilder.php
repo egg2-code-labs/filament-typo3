@@ -116,7 +116,7 @@ class FormBuilder extends Builder
     /**
      * @throws Exception
      */
-    public function blocks(array|Closure $components): static
+    public function blocks(array|Closure $blocks): static
     {
         throw new Exception('This method is not supported on the FormBuilder');
     }
