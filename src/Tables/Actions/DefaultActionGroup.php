@@ -88,7 +88,7 @@ class DefaultActionGroup extends ActionGroup
     /**
      * @throws Exception
      */
-    public static function make(array $actions): static
+    public static function make(array $actions = []): static
     {
         $static = parent::make([]);
 
