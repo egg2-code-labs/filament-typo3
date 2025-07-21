@@ -113,10 +113,10 @@ class Node extends Component
                 ->label(__('Edit'))
                 ->icon('heroicon-o-pencil')
                 ->color('white')
-                ->url(fn() => $resource::getUrl('edit', ['record' => $this->node])),
+                ->url(fn () => $resource::getUrl('edit', ['record' => $this->node])),
             ContextAction::make('Disable')
-                ->label(fn() => $record->hidden === false ? __('Disable') : __('Enable'))
-                ->icon(fn() => $record->hidden === false ? 'heroicon-o-x-circle' : 'heroicon-o-check-circle')
+                ->label(fn () => $record->hidden === false ? __('Disable') : __('Enable'))
+                ->icon(fn () => $record->hidden === false ? 'heroicon-o-x-circle' : 'heroicon-o-check-circle')
                 ->color('white')
                 ->action("toggleRecordHidden")
         ];
