@@ -4,7 +4,7 @@ namespace Egg2CodeLabs\FilamentTypo3\Forms\Components;
 
 use BackedEnum;
 use Closure;
-use Filament\Forms\Components\Tabs\Tab;
+use Filament\Schemas\Components\Tabs\Tab;
 
 abstract class AbstractCustomTab extends Tab
 {

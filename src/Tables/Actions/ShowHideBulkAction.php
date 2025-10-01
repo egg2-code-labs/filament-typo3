@@ -2,7 +2,7 @@
 
 namespace Egg2CodeLabs\FilamentTypo3\Tables\Actions;
 
-use Filament\Tables\Actions\BulkAction;
+use Filament\Actions\BulkAction;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 

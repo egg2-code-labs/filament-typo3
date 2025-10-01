@@ -16,7 +16,7 @@ class ActiveToggleColumn extends ToggleColumn
      *
      * @return static
      */
-    public static function make(string $name = 'hidden'): static
+    public static function make(string|null $name = 'hidden'): static
     {
         return parent::make($name);
     }

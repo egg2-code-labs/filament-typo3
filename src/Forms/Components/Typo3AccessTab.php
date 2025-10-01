@@ -3,21 +3,18 @@
 namespace Egg2CodeLabs\FilamentTypo3\Forms\Components;
 
 use BackedEnum;
+use Closure;
 use Egg2CodeLabs\FilamentTypo3\Forms\Components\Enums\Typo3AccessTabFieldsEnum as FieldsEnum;
-use Filament\Forms\Components\Actions\Action;
+use Filament\Actions\Action;
 use Filament\Forms\Components\DateTimePicker;
-use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Toggle;
-use Filament\Forms\Set;
+use Filament\Schemas\Components\Section;
+use Filament\Schemas\Components\Utilities\Set;
+use Illuminate\Contracts\Support\Htmlable;
 
 class Typo3AccessTab extends AbstractCustomTab
 {
-    /**
-     * @param string $label
-     *
-     * @return static
-     */
-    public static function make(string $label = 'Access'): static
+    public static function make(string|Htmlable|Closure|null $label = 'Access'): static
     {
         return parent::make($label);
     }

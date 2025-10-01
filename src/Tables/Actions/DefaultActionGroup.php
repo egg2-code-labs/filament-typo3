@@ -3,13 +3,11 @@
 namespace Egg2CodeLabs\FilamentTypo3\Tables\Actions;
 
 use Exception;
-use Filament\Actions\ActionGroup as BaseActionGroup;
-use Filament\Actions\StaticAction;
-use Filament\Tables\Actions\ActionGroup;
-use Filament\Tables\Actions\DeleteAction;
-use Filament\Tables\Actions\EditAction;
-use Filament\Tables\Actions\RestoreAction;
-use Filament\Tables\Actions\ViewAction;
+use Filament\Actions\ActionGroup;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\EditAction;
+use Filament\Actions\RestoreAction;
+use Filament\Actions\ViewAction;
 
 /**
  * The default actions in this group can be dynamically overwritten by providing actions that use the same name. Actions
@@ -18,7 +16,7 @@ use Filament\Tables\Actions\ViewAction;
 class DefaultActionGroup extends ActionGroup
 {
     /**
-     * @var array<StaticAction | BaseActionGroup>
+     * @var array<StaticAction | ActionGroup>
      */
     protected array $actions;
 
@@ -28,7 +26,7 @@ class DefaultActionGroup extends ActionGroup
     protected array $flatActions;
 
     /**
-     * @param array<StaticAction | BaseActionGroup> $actions
+     * @param array<StaticAction | ActionGroup> $actions
      * @throws Exception
      */
     public function actions(array $actions): static
@@ -68,7 +66,7 @@ class DefaultActionGroup extends ActionGroup
         foreach ($actions as $action) {
             $action->group($this);
 
-            if ($action instanceof BaseActionGroup) {
+            if ($action instanceof ActionGroup) {
                 $action->dropdownPlacement('right-top');
 
                 $this->flatActions = [

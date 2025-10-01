@@ -3,10 +3,10 @@
 namespace Egg2CodeLabs\FilamentTypo3\Forms\Components;
 
 use Closure;
-use Filament\Forms\Components\Actions\Action;
+use Filament\Actions\Action;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Get;
-use Filament\Forms\Set;
+use Filament\Schemas\Components\Utilities\Get;
+use Filament\Schemas\Components\Utilities\Set;
 use Illuminate\Support\Str;
 
 class SlugInput extends TextInput
@@ -21,7 +21,7 @@ class SlugInput extends TextInput
      */
     protected string $sourceColumn = 'title';
 
-    public static function make(string $name = 'slug'): static
+    public static function make(string|null $name = 'slug'): static
     {
         return parent::make($name);
     }

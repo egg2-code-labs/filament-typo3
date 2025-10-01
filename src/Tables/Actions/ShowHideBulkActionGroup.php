@@ -2,7 +2,7 @@
 
 namespace Egg2CodeLabs\FilamentTypo3\Tables\Actions;
 
-use Filament\Tables\Actions\BulkActionGroup;
+use Filament\Actions\BulkActionGroup;
 
 class ShowHideBulkActionGroup extends BulkActionGroup
 {
