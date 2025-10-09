@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Scope;
 use Illuminate\Support\Collection;
 
-readonly class Typo3AccessScope implements Scope
+final readonly class Typo3AccessScope implements Scope
 {
     /**
      * @param Collection<Typo3AccessTabFieldsEnum> $disabledFields

@@ -3,6 +3,8 @@
 namespace Egg2CodeLabs\FilamentTypo3\Traits;
 
 use Egg2CodeLabs\FilamentTypo3\Forms\Components\Enums\Typo3AccessTabFieldsEnum;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Schema;
 
 trait Typo3AccessTrait
 {
@@ -14,16 +16,28 @@ trait Typo3AccessTrait
     public function isEnabledSchedule(): bool
     {
         if (
-            $this->disabledFields->doesntContain(Typo3AccessTabFieldsEnum::STARTTIME)
-            || $this->disabledFields->doesntContain(Typo3AccessTabFieldsEnum::ENDTIME)
+            !$this->hasSchemaColumnCached(Typo3AccessTabFieldsEnum::STARTTIME->value)
+            || !$this->hasSchemaColumnCached(Typo3AccessTabFieldsEnum::ENDTIME->value)
         ) {
             return false;
         }
 
-        return now()->betweenIncluded(
-            date1: $this->starttime,
-            date2: $this->endtime,
-        );
+        if (!empty($this->starttime) && !empty($this->endtime)) {
+            return now()->betweenIncluded(
+                date1: $this->starttime,
+                date2: $this->endtime,
+            );
+        }
+
+        if (!empty($this->starttime) && now()->isBefore($this->starttime)) {
+            return false;
+        }
+
+        if (!empty($this->endtime) && now()->isAfter($this->endtime)) {
+            return false;
+        }
+
+        return true;
     }
 
     public function isDisabled(): bool
@@ -37,19 +51,35 @@ trait Typo3AccessTrait
             return false;
         }
 
-        if ($this->isEnabledSchedule()) {
-            return false;
-        }
-
-        return true;
+        return $this->isEnabledSchedule();
     }
 
-    public function isHidden(): bool
+    public function isHidden(string|null $hiddenColumn = null): bool
     {
-        if ($this->disabledFields->contains(Typo3AccessTabFieldsEnum::HIDDEN)) {
+        if (empty($hiddenColumn)) {
+            $hiddenColumn = Typo3AccessTabFieldsEnum::HIDDEN->value;
+        }
+
+        if (!$this->hasSchemaColumnCached($hiddenColumn)) {
             return false;
         }
 
-        return (bool)$this->hidden;
+        return (bool)$this->getAttribute($hiddenColumn);
+    }
+
+    private function hasSchemaColumn(string $column): bool
+    {
+        return Schema::hasColumn(table: $this->getTable(), column: $column);
+    }
+
+    private function hasSchemaColumnCached(string $column): bool
+    {
+        $function = __FUNCTION__;
+        $class = $this::class;
+
+        return Cache::rememberForever(
+            key: "{$function}-{$class}-{$column}",
+            callback: fn (): bool => $this->hasSchemaColumn($column)
+        );
     }
 }
