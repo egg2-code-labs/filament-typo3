@@ -2,6 +2,7 @@
 
 namespace Egg2CodeLabs\FilamentTypo3\Forms\Components\Enums;
 
+use BackedEnum;
 use Illuminate\Support\Collection;
 
 trait CollectableEnumTrait
@@ -20,7 +21,7 @@ trait CollectableEnumTrait
     {
         return static::collect()
             ->mapWithKeys(
-                fn (\BackedEnum $value): array => [
+                fn (BackedEnum $value): array => [
                     $value->name => $value->value
                 ]
             );
