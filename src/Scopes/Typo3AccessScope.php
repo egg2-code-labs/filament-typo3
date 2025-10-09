@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Egg2CodeLabs\FilamentTypo3\Scopes;
 
 use Egg2CodeLabs\FilamentTypo3\Forms\Components\Enums\Typo3AccessTabFieldsEnum;
@@ -8,13 +10,13 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Scope;
 use Illuminate\Support\Collection;
 
-class Typo3AccessScope implements Scope
+readonly class Typo3AccessScope implements Scope
 {
     /**
      * @param Collection<Typo3AccessTabFieldsEnum> $disabledFields
      */
-    private readonly Collection $disabledFields;
-    private readonly bool $sorting;
+    private Collection $disabledFields;
+    private bool $sorting;
 
     /**
      * @param array<Typo3AccessTabFieldsEnum>|Collection<Typo3AccessTabFieldsEnum> $disabledFields
