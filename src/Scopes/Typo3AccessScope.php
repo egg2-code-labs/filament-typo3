@@ -52,7 +52,7 @@ class Typo3AccessScope implements Scope
                     return $query->where(function (Builder $query) use ($now, $table) {
                         return $query
                             ->whereNull("{$table}.starttime")
-                            ->orWhere("{$table}.starttime", '<', $now);
+                            ->orWhere("{$table}.starttime", '<=', $now);
                     });
                 }
             )
@@ -65,7 +65,7 @@ class Typo3AccessScope implements Scope
                     return $query->where(function (Builder $query) use ($now, $table) {
                         return $query
                             ->whereNull("{$table}.endtime")
-                            ->orWhere("{$table}.endtime", '>', $now);
+                            ->orWhere("{$table}.endtime", '>=', $now);
                     });
                 }
             )
