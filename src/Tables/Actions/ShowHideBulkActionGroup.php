@@ -6,19 +6,11 @@ use Filament\Actions\BulkActionGroup;
 
 class ShowHideBulkActionGroup extends BulkActionGroup
 {
-    /**
-     * @param array $actions
-     *
-     * @return static
-     */
     public static function make(array $actions = []): static
     {
         return parent::make($actions);
     }
 
-    /**
-     * @return void
-     */
     protected function setUp(): void
     {
         parent::setUp();

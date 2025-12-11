@@ -15,18 +15,14 @@ class FilamentTypo3Plugin implements Plugin
 {
     /**
      * Create a new instance of the plugin.
-     *
-     * @return static
      */
     public static function make(): static
     {
-        return app(static::class);
+        return resolve(static::class);
     }
 
     /**
      * Get the ID of the plugin.
-     *
-     * @return string
      */
     public function getId(): string
     {
@@ -37,8 +33,6 @@ class FilamentTypo3Plugin implements Plugin
      * Boot the plugin.
      *
      * @param Panel $panel The Filament panel instance.
-     *
-     * @return void
      */
     public function boot(Panel $panel): void
     {
@@ -48,8 +42,6 @@ class FilamentTypo3Plugin implements Plugin
      * Register the plugin.
      *
      * @param Panel $panel The Filament panel instance.
-     *
-     * @return void
      */
     public function register(Panel $panel): void
     {

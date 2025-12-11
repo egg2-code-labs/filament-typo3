@@ -27,8 +27,6 @@ class SlugInput extends TextInput
     }
 
     /**
-     * @param string $table
-     *
      * @return $this
      */
     public function table(string $table): static
@@ -38,11 +36,6 @@ class SlugInput extends TextInput
         return $this;
     }
 
-    /**
-     * @param string $sourceColumn
-     *
-     * @return SlugInput
-     */
     public function sourceColumn(string $sourceColumn = 'title'): static
     {
         $this->sourceColumn = $sourceColumn;
@@ -68,7 +61,7 @@ class SlugInput extends TextInput
                     ->tooltip(__('Refresh slug'))
                     ->requiresConfirmation()
                     ->action(
-                        fn (Set $set, Get $get, mixed $state) => $set(
+                        fn (Set $set, Get $get, mixed $state): mixed => $set(
                             path: $this->name,
                             state: Str::slug($get($this->sourceColumn))
                         )
@@ -76,7 +69,7 @@ class SlugInput extends TextInput
             )
             ->required()
             ->unique(
-                table: fn () => $this->table,
+                table: fn (): string => $this->table,
                 ignoreRecord: true
             )
             ->string()
@@ -85,8 +78,6 @@ class SlugInput extends TextInput
 
     /**
      * Generate slug when state of sourceField changed
-     *
-     * @return Closure
      */
     public static function getSlugHandlerFunction(): Closure
     {

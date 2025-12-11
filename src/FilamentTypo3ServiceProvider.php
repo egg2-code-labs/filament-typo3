@@ -21,17 +21,13 @@ class FilamentTypo3ServiceProvider extends PackageServiceProvider
 {
     /**
      * The name of the package.
-     *
-     * @var string
      */
     public static string $name = 'filament-typo3';
 
     /**
      * Configure the package.
      *
-     * @param Package $package
      *
-     * @return void
      */
     public function configurePackage(Package $package): void
     {
@@ -67,7 +63,6 @@ class FilamentTypo3ServiceProvider extends PackageServiceProvider
     /**
      * Perform any actions after the package has booted.
      *
-     * @return void
      * @throws ReflectionException
      */
     public function packageBooted(): void

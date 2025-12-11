@@ -11,11 +11,6 @@ class Typo3SeoTab extends AbstractCustomTab
 {
     protected int $_columns = 1;
 
-    /**
-     * @param string $label
-     *
-     * @return static
-     */
     public static function make(string $label = 'SEO'): static
     {
         return parent::make($label);
@@ -23,8 +18,6 @@ class Typo3SeoTab extends AbstractCustomTab
 
     /**
      * Get the schema for the whole tab
-     *
-     * @return array
      */
     protected function getSchema(): array
     {
@@ -47,11 +40,6 @@ class Typo3SeoTab extends AbstractCustomTab
         ];
     }
 
-    /**
-     * @param BackedEnum|string $fieldName
-     *
-     * @return BackedEnum
-     */
     protected function evaluateEnum(BackedEnum|string $fieldName): BackedEnum
     {
         if (!$fieldName instanceof FieldsEnum) {

@@ -14,14 +14,11 @@ class NodeTree
     use EvaluatesClosures;
 
     protected string|Closure|null $title = null;
+
     protected string|Closure|null $description = null;
+
     protected string|Closure|null $model = null;
 
-    /**
-     * @param string|null $title
-     * @param string|null $description
-     * @param string|null $model
-     */
     public function __construct(null|string $title = null, null|string $description = null, null|string $model = null)
     {
         $this->title = $title;
@@ -29,11 +26,6 @@ class NodeTree
         $this->model = $model;
     }
 
-    /**
-     * @param string|Closure|null $model
-     *
-     * @return static
-     */
     public static function make(string|Closure|null $model = null): static
     {
         return new static(
@@ -43,17 +35,12 @@ class NodeTree
         );
     }
 
-    /**
-     * @return string|null
-     */
     public function getTitle(): null|string
     {
         return $this->evaluate($this->title);
     }
 
     /**
-     * @param string|Closure $title
-     *
      * @return $this
      */
     public function setTitle(string|Closure $title): static
@@ -63,17 +50,12 @@ class NodeTree
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
     public function getDescription(): null|string
     {
         return $this->evaluate($this->description);
     }
 
     /**
-     * @param string|Closure $description
-     *
      * @return $this
      */
     public function setDescription(string|Closure $description): static
@@ -84,8 +66,6 @@ class NodeTree
     }
 
     /**
-     * @param string $model
-     *
      * @return $this
      */
     public function setModel(string $model): static
@@ -95,9 +75,6 @@ class NodeTree
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getModel(): string
     {
         return $this->evaluate($this->model);

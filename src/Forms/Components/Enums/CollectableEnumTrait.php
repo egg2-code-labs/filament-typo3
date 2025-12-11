@@ -14,8 +14,6 @@ trait CollectableEnumTrait
 
     /**
      * Convert to filament Select input field options
-     *
-     * @return Collection
      */
     public static function toOptions(): Collection
     {

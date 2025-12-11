@@ -14,7 +14,7 @@ return new class () extends Migration {
     {
         $keyType = config('filament-typo3.migrations.keyType');
 
-        Schema::create(self::TABLE_NAME, function (Blueprint $table) use ($keyType) {
+        Schema::create(self::TABLE_NAME, function (Blueprint $table) use ($keyType): void {
             $table->{$keyType}('id')->primary;
 
             $table->string('user_id');

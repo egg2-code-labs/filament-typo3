@@ -32,12 +32,7 @@ trait Typo3AccessTrait
         if (!empty($this->starttime) && now()->isBefore($this->starttime)) {
             return false;
         }
-
-        if (!empty($this->endtime) && now()->isAfter($this->endtime)) {
-            return false;
-        }
-
-        return true;
+        return !(!empty($this->endtime) && now()->isAfter($this->endtime));
     }
 
     public function isDisabled(): bool

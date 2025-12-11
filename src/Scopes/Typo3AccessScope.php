@@ -16,6 +16,7 @@ final readonly class Typo3AccessScope implements Scope
      * @param Collection<Typo3AccessTabFieldsEnum> $disabledFields
      */
     private Collection $disabledFields;
+
     private bool $sorting;
 
     /**
@@ -72,7 +73,7 @@ final readonly class Typo3AccessScope implements Scope
                 }
             )
             ->when(
-                value: fn () => $this->sorting === true,
+                value: fn (): bool => $this->sorting,
                 callback: function (Builder $query) use ($table) {
                     return $query->orderBy("{$table}.sorting", 'asc');
                 }

@@ -21,12 +21,19 @@ use Illuminate\Support\Str;
 class FormField
 {
     public InputTypeEnum $type;
+
     public null|string $name;
+
     public null|string $label;
+
     public null|string $hint;
+
     public bool $required;
+
     public null|string $placeholder;
+
     public null|string $value;
+
     public null|Collection $options = null;
 
     public function __construct(array $formBuilderData)
@@ -53,7 +60,7 @@ class FormField
         }
 
         $this->options = collect(explode("\n", $options))
-            ->mapWithKeys(function (string $item, int $key) {
+            ->mapWithKeys(function (string $item, int $key): array {
                 $item = explode('|', $item);
 
                 return [$item[0] => $item[1]];

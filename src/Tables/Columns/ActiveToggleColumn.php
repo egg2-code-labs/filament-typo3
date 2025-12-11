@@ -13,17 +13,12 @@ class ActiveToggleColumn extends ToggleColumn
 {
     /**
      * @param string $name
-     *
-     * @return static
      */
     public static function make(string|null $name = 'hidden'): static
     {
         return parent::make($name);
     }
 
-    /**
-     * @return void
-     */
     protected function setUp(): void
     {
         parent::setUp();
@@ -31,12 +26,12 @@ class ActiveToggleColumn extends ToggleColumn
         $this
             ->label('Active')
             ->getStateUsing(
-                callback: fn ($record): bool => !($record?->{$this->getName()} === true)
+                callback: fn ($record): bool => $record?->{$this->getName()} !== true
             )
             ->updateStateUsing(
-                callback: function ($record, $state) {
+                callback: function ($record, $state): void {
                     $record->update([
-                        $this->getName() => !($state === true) // Invert the toggle column value for better UX
+                        $this->getName() => $state !== true // Invert the toggle column value for better UX
                     ]);
                 }
             )

@@ -13,22 +13,13 @@ trait HasPageTree
 {
     use EvaluatesClosures;
 
-    /**
-     * @var bool
-     */
     public static bool|Closure $hasSidebar = true;
 
-    /**
-     * @return NodeTree
-     */
     public function getSidebar(): NodeTree
     {
         return NodeTree::make($this->getModel());
     }
 
-    /**
-     * @return string
-     */
     public function getModel(): string
     {
         return static::getResource()::getModel();
@@ -54,7 +45,7 @@ trait HasPageTree
     {
         if (is_subclass_of($this, Page::class)) {
             $props = collect(
-                (new ReflectionClass($this))->getDefaultProperties()
+                new ReflectionClass($this)->getDefaultProperties()
             );
 
             if ($props->get('view')) {
@@ -70,12 +61,12 @@ trait HasPageTree
      */
     public function getSidebarWidths(): array
     {
-        return config('filament-typo3.sidebar_width') ?? [
+        return config('filament-typo3.sidebar_width', [
             'sm' => 12,
             'md' => 3,
             'lg' => 3,
             'xl' => 3,
             '2xl' => 3,
-        ];
+        ]);
     }
 }

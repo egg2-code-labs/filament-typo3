@@ -51,7 +51,7 @@ class Typo3AccessTab extends AbstractCustomTab
                 ])
                 ->columns(2),
             Section::make(FieldsEnum::SECTION_DATES->value)
-                ->hidden(fn () => $this->isFieldHidden(FieldsEnum::SECTION_DATES))
+                ->hidden(fn (): bool => $this->isFieldHidden(FieldsEnum::SECTION_DATES))
                 ->schema([
                     DateTimePicker::make(FieldsEnum::STARTTIME->value)
                         ->hidden(fn (): bool => $this->isFieldHidden(FieldsEnum::STARTTIME))
@@ -59,7 +59,7 @@ class Typo3AccessTab extends AbstractCustomTab
                         ->suffixAction(
                             Action::make('clear')
                                 ->icon('heroicon-o-x-mark')
-                                ->action(fn (Set $set, mixed $state) => $set('starttime', null))
+                                ->action(fn (Set $set, mixed $state): mixed => $set('starttime', null))
                         ),
                     DateTimePicker::make(FieldsEnum::ENDTIME->value)
                         ->hidden(fn (): bool => $this->isFieldHidden(FieldsEnum::ENDTIME))
@@ -67,18 +67,13 @@ class Typo3AccessTab extends AbstractCustomTab
                         ->suffixAction(
                             Action::make('clear')
                                 ->icon('heroicon-o-x-mark')
-                                ->action(fn (Set $set, mixed $state) => $set('endtime', null))
+                                ->action(fn (Set $set, mixed $state): mixed => $set('endtime', null))
                         ),
                 ])
                 ->columns(2),
         ];
     }
 
-    /**
-     * @param BackedEnum|string $fieldName
-     *
-     * @return BackedEnum
-     */
     protected function evaluateEnum(BackedEnum|string $fieldName): BackedEnum
     {
         if (!$fieldName instanceof FieldsEnum) {

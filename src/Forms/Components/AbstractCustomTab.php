@@ -12,23 +12,14 @@ abstract class AbstractCustomTab extends Tab
      * @var array<BackedEnum> List of fields excluded from rendering
      */
     protected Closure|array $exclude = [];
-    /**
-     * @var int
-     */
+
     protected int $_columns = 2;
 
     /**
      * Get the schema for the whole tab
-     *
-     * @return array
      */
     abstract protected function getSchema(): array;
 
-    /**
-     * @param BackedEnum|string $fieldName
-     *
-     * @return BackedEnum
-     */
     abstract protected function evaluateEnum(BackedEnum|string $fieldName): BackedEnum;
 
     /**
@@ -47,23 +38,19 @@ abstract class AbstractCustomTab extends Tab
 
     /**
      * Get a sanitized list of excluded fields
-     *
-     * @return array
      */
     public function getExclude(): array
     {
         $exclude = $this->evaluate($this->exclude);
 
         return array_map(
-            callback: fn (mixed $item) => $this->evaluateEnum($item),
+            callback: fn (mixed $item): BackedEnum => $this->evaluateEnum($item),
             array: $exclude
         );
     }
 
     /**
      * setUp() is run through parent::__construct()
-     *
-     * @return void
      */
     protected function setUp(): void
     {
@@ -78,7 +65,6 @@ abstract class AbstractCustomTab extends Tab
     /**
      * Check if whether a field is hidden
      *
-     * @param BackedEnum|string $fieldName
      *
      * @return bool true if hidden, false if not hidden
      */

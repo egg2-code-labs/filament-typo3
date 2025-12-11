@@ -37,14 +37,8 @@ class Node extends Component
     /**
      * @var string[]
      */
-    private static $defaultSelect = ['id', 'doctype', 'title', 'hidden'];
+    private static array $defaultSelect = ['id', 'doctype', 'title', 'hidden'];
 
-    /**
-     * @param HasExpandablesInterface $node
-     * @param bool $isRootNode
-     *
-     * @return void
-     */
     public function mount(HasExpandablesInterface $node, bool $isRootNode = false): void
     {
         $this->nodeId = $node->getKey();
@@ -54,22 +48,16 @@ class Node extends Component
         $this->isRootNode = $isRootNode;
     }
 
-    /**
-     * @return View
-     */
     public function render(): View
     {
         return view('filament-typo3::components.node-tree.node');
     }
 
-    /**
-     * @return HasExpandablesInterface
-     */
     #[Computed]
     public function node(): HasExpandablesInterface
     {
         return $this->nodeModel::query()
-            ->select(static::$defaultSelect)
+            ->select(self::$defaultSelect)
             ->withoutGlobalScopes()
             ->where('id', $this->nodeId)
             ->orderBy('sorting')
@@ -81,7 +69,7 @@ class Node extends Component
     public function children(): Collection
     {
         return $this->nodeModel::query()
-            ->select(static::$defaultSelect)
+            ->select(self::$defaultSelect)
             ->withoutGlobalScopes()
             ->where('pid', $this->nodeId)
             ->orderBy('sorting')
@@ -115,8 +103,8 @@ class Node extends Component
                 ->color('white')
                 ->url(fn () => $resource::getUrl('edit', ['record' => $this->node])),
             ContextAction::make('Disable')
-                ->label(fn () => $record->hidden === false ? __('Disable') : __('Enable'))
-                ->icon(fn () => $record->hidden === false ? 'heroicon-o-x-circle' : 'heroicon-o-check-circle')
+                ->label(fn (): string|array|null => $record->hidden === false ? __('Disable') : __('Enable'))
+                ->icon(fn (): string => $record->hidden === false ? 'heroicon-o-x-circle' : 'heroicon-o-check-circle')
                 ->color('white')
                 ->action("toggleRecordHidden")
         ];
@@ -138,9 +126,6 @@ class Node extends Component
         }
     }
 
-    /**
-     * @return void
-     */
     public function toggle(): void
     {
         $isOpen = !$this->isOpen();
@@ -150,7 +135,7 @@ class Node extends Component
         /**
          * Delete DB entry when item is closed
          */
-        if ($isOpen !== true) {
+        if (!$isOpen) {
             $user->expandables()
                 ->where('expandable_type', $this->node()::class)
                 ->where('expandable_id', $this->node()->getKey())
@@ -160,7 +145,7 @@ class Node extends Component
         /**
          * Create DB entry when item is opened
          */
-        if ($isOpen === true) {
+        if ($isOpen) {
             $attributesAndValues = [
                 'expandable_type' => $this->node()::class,
                 'expandable_id' => $this->node()->getKey(),
@@ -174,9 +159,6 @@ class Node extends Component
         }
     }
 
-    /**
-     * @return array
-     */
     private function getEventData(): array
     {
         return [
@@ -186,18 +168,12 @@ class Node extends Component
         ];
     }
 
-    /**
-     * @return void
-     */
     #[Renderless]
     public function onLabelClick(): void
     {
         $this->dispatch('tree-node-clicked', data: $this->getEventData());
     }
 
-    /**
-     * @return void
-     */
     #[Renderless]
     public function onIconClick(): void
     {
