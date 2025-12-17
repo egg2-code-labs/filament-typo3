@@ -32,6 +32,7 @@ trait Typo3AccessTrait
         if (!empty($this->starttime) && now()->isBefore($this->starttime)) {
             return false;
         }
+
         return !(!empty($this->endtime) && now()->isAfter($this->endtime));
     }
 
