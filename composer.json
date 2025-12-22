@@ -1,55 +1,54 @@
 {
-  "name": "egg2-code-labs/filament-typo3",
-  "description": "Bring some Typo3 functions to Filament PHP.",
-  "type": "library",
-  "version": "1.0.3",
-  "license": "MIT",
-  "require": {
-    "filament/filament": "^4.0",
-    "spatie/laravel-package-tools": "^1.16",
-    "aymanalhattami/filament-page-with-sidebar": "^3.0",
-    "livewire/livewire": "^3.0"
-  },
-  "require-dev": {
-    "laravel/pint": "^1.14",
-    "nunomaduro/collision": "^8.1.1||^7.10.0",
-    "larastan/larastan": "^2.9",
-    "orchestra/testbench": "^9.0.0||^8.22.0",
-    "pestphp/pest": "^2.34",
-    "pestphp/pest-plugin-arch": "^2.7",
-    "pestphp/pest-plugin-laravel": "^2.3",
-    "phpstan/extension-installer": "^1.3",
-    "phpstan/phpstan-deprecation-rules": "^1.1",
-    "phpstan/phpstan-phpunit": "^1.3",
-    "pestphp/pest-plugin-livewire": "^2.1"
-  },
-  "scripts": {
-    "test": "./vendor/bin/pest ./tests"
-  },
-  "autoload": {
-    "psr-4": {
-      "Egg2CodeLabs\\FilamentTypo3\\": "src/",
-      "Egg2CodeLabs\\FilamentTypo3\\Tests\\": "tests/"
+    "name": "egg2-code-labs/filament-typo3",
+    "description": "Bring some Typo3 functions to Filament PHP.",
+    "type": "library",
+    "version": "1.0.3",
+    "license": "MIT",
+    "require": {
+        "filament/filament": "^4.0",
+        "spatie/laravel-package-tools": "^1.16",
+        "livewire/livewire": "^3.0"
+    },
+    "require-dev": {
+        "laravel/pint": "^1.14",
+        "nunomaduro/collision": "^8.1.1||^7.10.0",
+        "larastan/larastan": "^2.9",
+        "orchestra/testbench": "^9.0.0||^8.22.0",
+        "pestphp/pest": "^2.34",
+        "pestphp/pest-plugin-arch": "^2.7",
+        "pestphp/pest-plugin-laravel": "^2.3",
+        "phpstan/extension-installer": "^1.3",
+        "phpstan/phpstan-deprecation-rules": "^1.1",
+        "phpstan/phpstan-phpunit": "^1.3",
+        "pestphp/pest-plugin-livewire": "^2.1"
+    },
+    "scripts": {
+        "test": "./vendor/bin/pest ./tests"
+    },
+    "autoload": {
+        "psr-4": {
+            "Egg2CodeLabs\\FilamentTypo3\\": "src/",
+            "Egg2CodeLabs\\FilamentTypo3\\Tests\\": "tests/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Alexander Hofbauer",
+            "email": "alex@eggsquare.net"
+        }
+    ],
+    "minimum-stability": "stable",
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Egg2CodeLabs\\FilamentTypo3\\FilamentTypo3ServiceProvider"
+            ]
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "pestphp/pest-plugin": true,
+            "phpstan/extension-installer": true
+        }
     }
-  },
-  "authors": [
-    {
-      "name": "Alexander Hofbauer",
-      "email": "alex@eggsquare.net"
-    }
-  ],
-  "minimum-stability": "stable",
-  "extra": {
-    "laravel": {
-      "providers": [
-        "Egg2CodeLabs\\FilamentTypo3\\FilamentTypo3ServiceProvider"
-      ]
-    }
-  },
-  "config": {
-    "allow-plugins": {
-      "pestphp/pest-plugin": true,
-      "phpstan/extension-installer": true
-    }
-  }
 }
