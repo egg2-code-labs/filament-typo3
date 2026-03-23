@@ -3,6 +3,7 @@
 namespace Egg2CodeLabs\FilamentTypo3;
 
 use Egg2CodeLabs\FilamentTypo3\Database\Schema\BlueprintMixin;
+use Egg2CodeLabs\FilamentTypo3\Livewire\Bookmarks\BookmarksButton;
 use Egg2CodeLabs\FilamentTypo3\Livewire\NodeTree\Node;
 use Filament\Support\Assets\Css;
 use Filament\Support\Facades\FilamentAsset;
@@ -42,7 +43,8 @@ class FilamentTypo3ServiceProvider extends PackageServiceProvider
             ->hasTranslations()
             ->publishesServiceProvider(self::class)
             ->hasMigrations([
-                '2024_10_25_create_filament_typo3_expandable_state_table'
+                '2024_10_25_create_filament_typo3_expandable_state_table',
+                '2024_10_26_add_bookmarks_to_users_table',
             ])
             ->runsMigrations()
             ->hasViews()
@@ -80,5 +82,6 @@ class FilamentTypo3ServiceProvider extends PackageServiceProvider
     public function registerLivewireComponents(): void
     {
         Livewire::component('filament-typo3::node-tree-node', Node::class);
+        Livewire::component('filament-typo3::bookmarks-button', BookmarksButton::class);
     }
 }
