@@ -41,7 +41,7 @@ class Gaze
             }
 
             // Check if viewer is still valid (not expired)
-            if (isset($viewer['expires']) && now() < now()->parse($viewer['expires'])) {
+            if (isset($viewer['expires']) && now()->lt(\Illuminate\Support\Carbon::parse($viewer['expires']))) {
                 return true;
             }
         }
@@ -80,7 +80,7 @@ class Gaze
             }
 
             // Check if viewer is still valid (not expired)
-            if (isset($viewer['expires']) && now() < now()->parse($viewer['expires'])) {
+            if (isset($viewer['expires']) && now()->lt(\Illuminate\Support\Carbon::parse($viewer['expires']))) {
                 $count++;
             }
         }
@@ -123,11 +123,13 @@ class Gaze
 
         foreach ($viewers as $viewer) {
             // Check if this viewer has control and is not the current user
-            if (isset($viewer['has_control']) && $viewer['has_control'] === true && 
-                isset($viewer['id']) && $viewer['id'] != $currentUserId) {
+            if (
+                ($viewer['has_control'] ?? false) === true
+                && isset($viewer['id']) && $viewer['id'] != $currentUserId
+                && isset($viewer['expires']) && now()->lt(\Illuminate\Support\Carbon::parse($viewer['expires']))
+            ) {
                 return true;
             }
-        }
 
         return false;
     }
@@ -163,7 +165,7 @@ class Gaze
             }
 
             // Check if viewer is still valid (not expired)
-            if (isset($viewer['expires']) && now() < now()->parse($viewer['expires'])) {
+            if (isset($viewer['expires']) && now()->lt(\Illuminate\Support\Carbon::parse($viewer['expires']))) {
                 $result[] = $viewer;
             }
         }

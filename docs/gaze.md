@@ -37,8 +37,8 @@ if (Gaze::isOpened($record)) {
 }
 
 // Exclude current user from the check (default: true)
-if (Gaze::isOpened($record, false)) {
-    // Someone (including possibly current user) is viewing this record
+if (Gaze::isOpened($record, true)) {
+    // Someone (excluding the current user) is viewing this record
 }
 ```
 

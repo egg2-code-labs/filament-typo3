@@ -11,10 +11,8 @@ $isOpened = $column->getIsOpened($record);
 $viewerCount = $column->getViewerCount($record);
 ?>
 
-<div 
-    {{ $attributes->merge($column->getExtraAttributes($record))->className(
-        Filament\Tables\Columns\Column::getAlpineClickHandler($column->getAction()) ?? ''
-    ) }}
+<div
+    {{ $attributes->merge($column->getExtraAttributes($record)) }}
     wire:key="{{ $this->rowLoop->index . '-' . $column->getId() }}"
 >
     <div class="flex items-center gap-2">
