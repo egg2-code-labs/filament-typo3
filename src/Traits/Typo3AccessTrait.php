@@ -2,17 +2,23 @@
 
 namespace Egg2CodeLabs\FilamentTypo3\Traits;
 
-use Egg2CodeLabs\FilamentTypo3\Forms\Components\Enums\Typo3AccessTabFieldsEnum;
+use Egg2CodeLabs\FilamentTypo3\Enums\Typo3AccessTabFieldsEnum;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Schema;
 
 trait Typo3AccessTrait
 {
+    /**
+     * Check if the record is disabled in schedule (has time constraints that prevent it from being shown).
+     */
     public function isDisabledSchedule(): bool
     {
         return !$this->isEnabledSchedule();
     }
 
+    /**
+     * Check if the record is enabled in schedule (has no time constraints or current time is within range).
+     */
     public function isEnabledSchedule(): bool
     {
         if (
@@ -36,11 +42,17 @@ trait Typo3AccessTrait
         return !(!empty($this->endtime) && now()->isAfter($this->endtime));
     }
 
+    /**
+     * Check if the record is disabled (hidden or not in schedule).
+     */
     public function isDisabled(): bool
     {
         return !$this->isEnabled();
     }
 
+    /**
+     * Check if the record is enabled (not hidden and in schedule).
+     */
     public function isEnabled(): bool
     {
         if ($this->isHidden()) {
@@ -50,6 +62,11 @@ trait Typo3AccessTrait
         return $this->isEnabledSchedule();
     }
 
+    /**
+     * Check if the record is hidden.
+     *
+     * @param string|null $hiddenColumn The column name to check, defaults to 'hidden'
+     */
     public function isHidden(string|null $hiddenColumn = null): bool
     {
         if (empty($hiddenColumn)) {
@@ -60,21 +77,29 @@ trait Typo3AccessTrait
             return false;
         }
 
-        return (bool)$this->getAttribute($hiddenColumn);
+        return (bool) $this->getAttribute($hiddenColumn);
     }
 
+    /**
+     * Check if a column exists in the database schema.
+     *
+     * @param string $column The column name to check
+     */
     private function hasSchemaColumn(string $column): bool
     {
         return Schema::hasColumn(table: $this->getTable(), column: $column);
     }
 
+    /**
+     * Check if a column exists in the database schema with caching.
+     *
+     * @param string $column The column name to check
+     */
     private function hasSchemaColumnCached(string $column): bool
     {
-        $function = __FUNCTION__;
-        $class = $this::class;
-
-        return Cache::rememberForever(
-            key: "{$function}-{$class}-{$column}",
+        return Cache::remember(
+            key: "filament-typo3:{$this->getTable()}:{$column}:schema",
+            ttl: now()->addDay(),
             callback: fn (): bool => $this->hasSchemaColumn($column)
         );
     }

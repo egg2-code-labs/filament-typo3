@@ -3,7 +3,7 @@
 namespace Egg2CodeLabs\FilamentTypo3\Forms\Components;
 
 use Closure;
-use Egg2CodeLabs\FilamentTypo3\Forms\Components\Enums\InputTypeEnum;
+use Egg2CodeLabs\FilamentTypo3\Enums\InputTypeEnum;
 use Exception;
 use Filament\Forms\Components\Builder;
 use Filament\Forms\Components\Builder\Block;
@@ -14,13 +14,19 @@ use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Fieldset;
 
 /**
- * TODO: it would be really handy to define an object that represents an input
- *       field with a well-defined public API so that we can type-hint everything
- *       properly and are sure that wherever we use the values of those fields
- *       we have a standardized API and validation.
+ * Form builder component for creating dynamic forms.
+ *
+ * Provides a builder interface for creating form fields with type-specific configurations,
+ * similar to TYPO3 CMS form builder functionality.
  */
 class FormBuilder extends Builder
 {
+    /**
+     * Build the block schema for common and type-specific fields.
+     *
+     * @param array|Closure $fields Type-specific fields to include
+     * @return array<mixed> The fieldset schema
+     */
     private function buildBlockSchema(array|Closure $fields): array
     {
         return [
@@ -51,6 +57,8 @@ class FormBuilder extends Builder
     }
 
     /**
+     * Set up the component with child components for different field types.
+     *
      * @throws Exception
      */
     protected function setUp(): void
@@ -106,7 +114,11 @@ class FormBuilder extends Builder
     }
 
     /**
-     * @throws Exception
+     * Override schema method to prevent usage.
+     *
+     * @param array|Closure $components The components to add
+     * @return $this
+     * @throws Exception Always throws an exception as this method is not supported
      */
     public function schema(array|Closure $components): static
     {
@@ -114,7 +126,11 @@ class FormBuilder extends Builder
     }
 
     /**
-     * @throws Exception
+     * Override blocks method to prevent usage.
+     *
+     * @param array|Closure $blocks The blocks to add
+     * @return $this
+     * @throws Exception Always throws an exception as this method is not supported
      */
     public function blocks(array|Closure $blocks): static
     {

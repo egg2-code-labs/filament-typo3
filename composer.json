@@ -4,6 +4,7 @@
     "type": "library",
     "version": "1.0.3",
     "license": "MIT",
+    "php": "^8.1",
     "require": {
         "filament/filament": "^4.0",
         "spatie/laravel-package-tools": "^1.16",
@@ -23,7 +24,10 @@
         "pestphp/pest-plugin-livewire": "^2.1"
     },
     "scripts": {
-        "test": "./vendor/bin/pest ./tests"
+        "test": "./vendor/bin/pest ./tests",
+        "analyse": "./vendor/bin/phpstan analyse --level=8",
+        "lint": "./vendor/bin/pint --test",
+        "fix": "./vendor/bin/pint"
     },
     "autoload": {
         "psr-4": {
@@ -49,6 +53,8 @@
         "allow-plugins": {
             "pestphp/pest-plugin": true,
             "phpstan/extension-installer": true
-        }
+        },
+        "optimize-autoloader": true,
+        "sort-packages": true
     }
 }

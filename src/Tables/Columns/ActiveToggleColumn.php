@@ -5,20 +5,26 @@ namespace Egg2CodeLabs\FilamentTypo3\Tables\Columns;
 use Filament\Tables\Columns\ToggleColumn;
 
 /**
- * This column operates on the `hidden` column, but inverts the logic to be more intuitive in the tables.
- * Basically the toggle shows active when the `hidden` column is false and vice versa. The idea being that it is
- * more intuitive to disable something by disabling a switch rather than enabling something by disabling a switch.
+ * This column operates on the `hidden` column, but inverts the logic to be more intuitive
+ * in the tables. Basically the toggle shows active when the `hidden` column is false and
+ * vice versa. The idea being that it is more intuitive to disable something by disabling
+ * a switch rather than enabling something by disabling a switch.
  */
 class ActiveToggleColumn extends ToggleColumn
 {
     /**
-     * @param string $name
+     * Create a new instance of the column.
+     *
+     * @param string|null $name The column name, defaults to 'hidden'
      */
     public static function make(string|null $name = 'hidden'): static
     {
         return parent::make($name);
     }
 
+    /**
+     * Set up the column with inverted logic for better UX.
+     */
     protected function setUp(): void
     {
         parent::setUp();

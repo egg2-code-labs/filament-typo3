@@ -7,16 +7,18 @@ use Filament\Actions\ActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\RestoreAction;
+use Filament\Actions\StaticAction;
 use Filament\Actions\ViewAction;
 
 /**
- * The default actions in this group can be dynamically overwritten by providing actions that use the same name. Actions
- * added to the stack later override actions that have been added earlier, including default actions.
+ * The default actions in this group can be dynamically overwritten by providing actions
+ * that use the same name. Actions added to the stack later override actions that have
+ * been added earlier, including default actions.
  */
 class DefaultActionGroup extends ActionGroup
 {
     /**
-     * @var array<StaticAction | ActionGroup>
+     * @var array<StaticAction|ActionGroup>
      */
     protected array $actions;
 
@@ -26,7 +28,10 @@ class DefaultActionGroup extends ActionGroup
     protected array $flatActions;
 
     /**
-     * @param array<StaticAction | ActionGroup> $actions
+     * Set the actions for the group.
+     *
+     * @param array<StaticAction|ActionGroup> $actions The actions to add
+     * @return $this
      * @throws Exception
      */
     public function actions(array $actions): static
@@ -40,6 +45,8 @@ class DefaultActionGroup extends ActionGroup
     }
 
     /**
+     * Set up the action group with default actions.
+     *
      * @throws Exception
      */
     protected function setUp(): void
@@ -57,7 +64,9 @@ class DefaultActionGroup extends ActionGroup
     }
 
     /**
-     * @param array<StaticAction | ActionGroup> $actions
+     * Add actions to the group.
+     *
+     * @param array<StaticAction|ActionGroup> $actions The actions to add
      * @return $this
      * @throws Exception
      */
@@ -84,6 +93,10 @@ class DefaultActionGroup extends ActionGroup
     }
 
     /**
+     * Create a new instance of the action group.
+     *
+     * @param array $actions The initial actions to add
+     * @return static The new instance
      * @throws Exception
      */
     public static function make(array $actions = []): static
@@ -94,5 +107,4 @@ class DefaultActionGroup extends ActionGroup
 
         return $static;
     }
-
 }
