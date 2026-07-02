@@ -2,10 +2,17 @@
 
 namespace Egg2CodeLabs\FilamentTypo3\Tables\Actions;
 
+use Egg2CodeLabs\FilamentTypo3\Tables\Actions\ShowHideBulkActionEnum;
 use Filament\Actions\BulkAction;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * Bulk action for showing or hiding multiple records.
+ *
+ * Provides functionality to bulk update the hidden status of records,
+ * similar to TYPO3 CMS bulk actions.
+ */
 class ShowHideBulkAction extends BulkAction
 {
     /**
@@ -13,14 +20,13 @@ class ShowHideBulkAction extends BulkAction
      */
     protected ShowHideBulkActionEnum $showOrHide;
 
-
     public static function make(null|string $name = null): static
     {
         return parent::make($name);
     }
 
     /**
-     * Convenience function to make this a show action
+     * Convenience function to make this a show action.
      *
      * @return $this
      */
@@ -29,6 +35,12 @@ class ShowHideBulkAction extends BulkAction
         return $this->showOrHide(ShowHideBulkActionEnum::SHOW);
     }
 
+    /**
+     * Set whether to show or hide records.
+     *
+     * @param ShowHideBulkActionEnum|bool|int|string $showOrHide The action to perform
+     * @return $this
+     */
     public function showOrHide(ShowHideBulkActionEnum|bool|int|string $showOrHide): static
     {
         if ($showOrHide === 'show') {
@@ -44,7 +56,7 @@ class ShowHideBulkAction extends BulkAction
         }
 
         if (is_bool($showOrHide)) {
-            $showOrHide = ShowHideBulkActionEnum::from((int)$showOrHide);
+            $showOrHide = ShowHideBulkActionEnum::from((int) $showOrHide);
         }
 
         $this->showOrHide = $showOrHide;
@@ -53,7 +65,7 @@ class ShowHideBulkAction extends BulkAction
     }
 
     /**
-     * Convenience function to make this a hide action
+     * Convenience function to make this a hide action.
      *
      * @return $this
      */
@@ -62,6 +74,9 @@ class ShowHideBulkAction extends BulkAction
         return $this->showOrHide(ShowHideBulkActionEnum::HIDE);
     }
 
+    /**
+     * Set up the bulk action with default configuration.
+     */
     protected function setUp(): void
     {
         parent::setUp();
@@ -70,8 +85,8 @@ class ShowHideBulkAction extends BulkAction
             ->requiresConfirmation()
             ->action(function (Collection $records): void {
                 /**
-                 * Initially I wanted to update all elements in one single update query, but for some reason that does
-                 * not work when enabling records again. So here we are back to a loop.
+                 * Update each record individually to ensure proper handling
+                 * of the hidden status.
                  */
                 $records->each(function (Model $record): void {
                     $record->hidden = $this->showOrHide->value;
