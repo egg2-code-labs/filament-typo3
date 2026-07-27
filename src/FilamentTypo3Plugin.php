@@ -25,11 +25,6 @@ final class FilamentTypo3Plugin implements Plugin
     private bool $bookmarksEnabled = false;
 
     /**
-     * Whether the gaze column feature is enabled.
-     */
-    private bool $gazeColumnEnabled = false;
-
-    /**
      * Create a new instance of the plugin.
      */
     public static function make(): static
@@ -55,16 +50,6 @@ final class FilamentTypo3Plugin implements Plugin
     public function bookmarks(bool $enabled = true): static
     {
         $this->bookmarksEnabled = $enabled;
-
-        return $this;
-    }
-
-    /**
-     * Enable or disable the gaze column feature.
-     */
-    public function gazeColumn(bool $enabled = true): static
-    {
-        $this->gazeColumnEnabled = $enabled;
 
         return $this;
     }
