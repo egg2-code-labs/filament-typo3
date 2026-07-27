@@ -55,7 +55,7 @@ class FilamentTypo3ServiceProvider extends PackageServiceProvider
             assets: [
                 Css::make(
                     id: 'filament-typo3',
-                    path: __DIR__ . '/../resources/dist/app.css'
+                    path: __DIR__ . '/../resources/dist/plugin.css'
                 ),
             ],
             package: 'egg2-code-labs/filament-typo3'

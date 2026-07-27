@@ -3,25 +3,30 @@
         <x-slot name="trigger">
             <button
                 type="button"
-                class="flex items-center gap-1 rounded-lg p-2 text-gray-400 transition hover:bg-gray-100 dark:hover:bg-white/5 focus:outline-none focus:ring-2 focus:ring-primary-500"
+                class="flex items-center gap-1 rounded-lg bg-gray-100 p-2 transition hover:bg-gray-300 focus:ring-2 focus:ring-primary-500 focus:outline-none dark:hover:bg-white/5"
                 title="{{ __('filament-typo3::bookmarks.bookmarks') }}"
             >
                 <x-heroicon-o-bookmark class="size-5" />
-                @if (count($this->bookmarks) > 0)
-                    <span class="text-xs font-medium text-gray-700 dark:text-gray-200">
-                        {{ count($this->bookmarks) }}
-                    </span>
-                @endif
+
+                {{--                @if (count($user->getBookmarks()) > 0)--}}
+                <span
+                    class="text-xs font-medium text-gray-700 dark:text-gray-200"
+                >
+                    {{ count($this->bookmarks) }}
+                </span>
+                {{--                @endif--}}
             </button>
         </x-slot>
 
         <x-filament::dropdown.list>
-            @if (count($this->bookmarks) > 0)
-                @foreach ($this->bookmarks as $url => $label)
-                    <div class="flex items-center gap-2 px-3 py-2 hover:bg-gray-50 dark:hover:bg-white/5">
+            @if (count($user->getBookmarks()) > 0)
+                @foreach ($user->getBookmarks() as $url => $label)
+                    <div
+                        class="flex items-center gap-2 px-3 py-2 hover:bg-gray-50 dark:hover:bg-white/5"
+                    >
                         <a
                             href="{{ $url }}"
-                            class="flex-1 truncate text-sm text-gray-700 dark:text-gray-200 hover:underline"
+                            class="flex-1 truncate text-sm text-gray-700 hover:underline dark:text-gray-200"
                             title="{{ $label }}"
                         >
                             {{ $label }}
@@ -37,7 +42,9 @@
                     </div>
                 @endforeach
             @else
-                <div class="px-3 py-4 text-center text-sm text-gray-500 dark:text-gray-400">
+                <div
+                    class="px-3 py-4 text-center text-sm text-gray-500 dark:text-gray-400"
+                >
                     {{ __('filament-typo3::bookmarks.no_bookmarks') }}
                 </div>
             @endif
@@ -53,16 +60,19 @@
                 </button>
 
                 @if ($showAddForm)
-                    <form wire:submit="addBookmark" class="mt-3 space-y-2">
+                    <form
+                        wire:submit="addBookmark"
+                        class="mt-3 space-y-2"
+                    >
                         <div>
                             <input
                                 type="text"
                                 wire:model="newBookmarkLabel"
                                 placeholder="{{ __('filament-typo3::bookmarks.label_placeholder') }}"
-                                class="w-full rounded-lg border border-gray-300 bg-white px-3 py-1.5 text-sm text-gray-900 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500 dark:border-white/10 dark:bg-gray-900 dark:text-white"
+                                class="w-full rounded-lg border border-gray-300 bg-white px-3 py-1.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-1 focus:ring-primary-500 focus:outline-none dark:border-white/10 dark:bg-gray-900 dark:text-white"
                                 required
                             />
-                            @error('newBookmarkLabel')
+                            @error ('newBookmarkLabel')
                                 <p class="mt-1 text-xs text-danger-500">{{ $message }}</p>
                             @enderror
                         </div>
@@ -72,10 +82,10 @@
                                 type="url"
                                 wire:model="newBookmarkUrl"
                                 placeholder="{{ __('filament-typo3::bookmarks.url_placeholder') }}"
-                                class="w-full rounded-lg border border-gray-300 bg-white px-3 py-1.5 text-sm text-gray-900 focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500 dark:border-white/10 dark:bg-gray-900 dark:text-white"
+                                class="w-full rounded-lg border border-gray-300 bg-white px-3 py-1.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-1 focus:ring-primary-500 focus:outline-none dark:border-white/10 dark:bg-gray-900 dark:text-white"
                                 required
                             />
-                            @error('newBookmarkUrl')
+                            @error ('newBookmarkUrl')
                                 <p class="mt-1 text-xs text-danger-500">{{ $message }}</p>
                             @enderror
                         </div>

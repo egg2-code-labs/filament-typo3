@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Egg2CodeLabs\FilamentTypo3\Traits;
 
 /**
@@ -12,14 +14,6 @@ namespace Egg2CodeLabs\FilamentTypo3\Traits;
  */
 trait HasBookmarksTrait
 {
-    /**
-     * Initialize the trait and add the bookmarks cast.
-     */
-    protected function initializeHasBookmarksTrait(): void
-    {
-        $this->mergeCasts(['bookmarks' => 'array']);
-    }
-
     /**
      * Get all bookmarks as an associative array of [url => label].
      *
@@ -56,5 +50,12 @@ trait HasBookmarksTrait
     public function hasBookmark(string $url): bool
     {
         return array_key_exists($url, $this->getBookmarks());
+    }
+    /**
+     * Initialize the trait and add the bookmarks cast.
+     */
+    protected function initializeHasBookmarksTrait(): void
+    {
+        $this->mergeCasts(['bookmarks' => 'array']);
     }
 }

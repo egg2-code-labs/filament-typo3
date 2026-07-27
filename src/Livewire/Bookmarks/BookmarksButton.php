@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Egg2CodeLabs\FilamentTypo3\Livewire\Bookmarks;
 
 use Illuminate\Contracts\View\View;
@@ -12,7 +14,7 @@ use Livewire\Component;
  * Livewire component rendered in the Filament top bar via a render hook.
  * Displays a dropdown of user-defined bookmarks and allows adding/removing them.
  */
-class BookmarksButton extends Component
+final class BookmarksButton extends Component
 {
     /**
      * Label for the new bookmark form.
@@ -102,6 +104,8 @@ class BookmarksButton extends Component
 
     public function render(): View
     {
-        return view('filament-typo3::livewire.bookmarks.bookmarks-button');
+        return view('filament-typo3::livewire.bookmarks.bookmarks-button', [
+            'user' => auth()->user()
+        ]);
     }
 }

@@ -1,11 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Egg2CodeLabs\FilamentTypo3;
 
+use Egg2CodeLabs\FilamentTypo3\Livewire\Bookmarks\BookmarksButton;
 use Filament\Contracts\Plugin;
 use Filament\Panel;
 use Filament\View\PanelsRenderHook;
 use Illuminate\Support\Facades\Blade;
+use Livewire\Livewire;
 
 /**
  * Class FilamentTypo3Plugin
@@ -13,19 +17,19 @@ use Illuminate\Support\Facades\Blade;
  * This class represents the Filament Typo3 plugin.
  * It implements the Plugin interface and provides methods for booting and registering the plugin.
  */
-class FilamentTypo3Plugin implements Plugin
+final class FilamentTypo3Plugin implements Plugin
 {
     /**
      * Whether the top-bar bookmarks feature is enabled.
      */
-    protected bool $bookmarksEnabled = false;
+    private bool $bookmarksEnabled = false;
 
     /**
      * Create a new instance of the plugin.
      */
     public static function make(): static
     {
-        return resolve(static::class);
+        return resolve(self::class);
     }
 
     /**
@@ -40,7 +44,7 @@ class FilamentTypo3Plugin implements Plugin
      * Enable or disable the top-bar bookmarks feature.
      *
      * When enabled a bookmark dropdown is injected into the Filament top bar via a render hook.
-     * The authenticated user's model must use {@see \Egg2CodeLabs\FilamentTypo3\Traits\HasBookmarksTrait}
+     * The authenticated user's model must use {@see Traits\HasBookmarksTrait}
      * and the `bookmarks` column must exist on the users table.
      */
     public function bookmarks(bool $enabled = true): static
@@ -74,10 +78,12 @@ class FilamentTypo3Plugin implements Plugin
      */
     public function register(Panel $panel): void
     {
-        if ($this->bookmarksEnabled) {
+        Livewire::component('bookmarks-button', BookmarksButton::class);
+
+        if ($this->isBookmarksEnabled()) {
             $panel->renderHook(
-                PanelsRenderHook::TOPBAR_END,
-                fn (): string => Blade::render('<livewire:filament-typo3::bookmarks-button />')
+                PanelsRenderHook::GLOBAL_SEARCH_BEFORE,
+                fn (): string => Blade::render("@livewire('bookmarks-button')")
             );
         }
     }

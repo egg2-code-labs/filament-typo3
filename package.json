@@ -1,7 +1,7 @@
 {
   "scripts": {
-    "dev": "npx tailwindcss -i resources/css/app.css -o resources/dist/app.css --watch",
-    "build": "npx tailwindcss -i resources/css/app.css -o resources/dist/app.css --minify"
+    "dev": "npx @tailwindcss/cli -i resources/css/plugin.css -o resources/dist/plugin.css --watch",
+    "build": "npx @tailwindcss/cli -i resources/css/plugin.css -o resources/dist/plugin.css --minify"
   },
   "devDependencies": {
     "tailwindcss": "^4.1.13"
