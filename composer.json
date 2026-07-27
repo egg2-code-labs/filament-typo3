@@ -5,9 +5,9 @@
     "version": "1.0.3",
     "license": "MIT",
     "require": {
-        "filament/filament": "^4.0",
+        "filament/filament": "^5.0",
         "spatie/laravel-package-tools": "^1.16",
-        "livewire/livewire": "^3.0"
+        "livewire/livewire": "^4.0"
     },
     "require-dev": {
         "laravel/pint": "^1.14",
