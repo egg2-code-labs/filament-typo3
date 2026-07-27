@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Egg2CodeLabs\FilamentTypo3;
 
 use Egg2CodeLabs\FilamentTypo3\Forms\Components\Enums\InputTypeEnum;
@@ -18,7 +20,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 
-class FormField
+final class FormField
 {
     public InputTypeEnum $type;
 
@@ -51,20 +53,6 @@ class FormField
         $this->value = Arr::get($formBuilderData, 'data.value');
 
         $this->setOptions(Arr::get($formBuilderData, 'data.options'));
-    }
-
-    private function setOptions(null|string $options): void
-    {
-        if (empty($options)) {
-            return;
-        }
-
-        $this->options = collect(explode("\n", $options))
-            ->mapWithKeys(function (string $item, int $key): array {
-                $item = explode('|', $item);
-
-                return [$item[0] => $item[1]];
-            });
     }
 
     public function getFilamentField(): Field
@@ -103,5 +91,19 @@ class FormField
         }
 
         return $field;
+    }
+
+    private function setOptions(null|string $options): void
+    {
+        if (empty($options)) {
+            return;
+        }
+
+        $this->options = collect(explode("\n", $options))
+            ->mapWithKeys(function (string $item, int $key): array {
+                $item = explode('|', $item);
+
+                return [$item[0] => $item[1]];
+            });
     }
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Egg2CodeLabs\FilamentTypo3\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;

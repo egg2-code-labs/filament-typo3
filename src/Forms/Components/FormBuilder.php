@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Egg2CodeLabs\FilamentTypo3\Forms\Components;
 
 use Closure;
@@ -19,37 +21,8 @@ use Filament\Schemas\Components\Fieldset;
  *       properly and are sure that wherever we use the values of those fields
  *       we have a standardized API and validation.
  */
-class FormBuilder extends Builder
+final class FormBuilder extends Builder
 {
-    private function buildBlockSchema(array|Closure $fields): array
-    {
-        return [
-            Fieldset::make(__('Common fields'))
-                ->columns(2)
-                ->columnSpan(1)
-                ->schema([
-                    TextInput::make('name')
-                        ->required()
-                        ->alphaDash()
-                        ->columnSpan(1),
-                    Checkbox::make('required')
-                        ->inline(false)
-                        ->columnSpan(1),
-                    TextInput::make('label')
-                        ->label(__('Label'))
-                        ->required()
-                        ->columnSpan(2),
-                    TextInput::make('hint')
-                        ->label(__('Hint / Description'))
-                        ->columnSpan(2),
-                ]),
-            Fieldset::make(__('Type specific fields'))
-                ->columns(1)
-                ->columnSpan(1)
-                ->schema($fields)
-        ];
-    }
-
     /**
      * @throws Exception
      */
@@ -119,5 +92,33 @@ class FormBuilder extends Builder
     public function blocks(array|Closure $blocks): static
     {
         throw new Exception('This method is not supported on the FormBuilder');
+    }
+    private function buildBlockSchema(array|Closure $fields): array
+    {
+        return [
+            Fieldset::make(__('Common fields'))
+                ->columns(2)
+                ->columnSpan(1)
+                ->schema([
+                    TextInput::make('name')
+                        ->required()
+                        ->alphaDash()
+                        ->columnSpan(1),
+                    Checkbox::make('required')
+                        ->inline(false)
+                        ->columnSpan(1),
+                    TextInput::make('label')
+                        ->label(__('Label'))
+                        ->required()
+                        ->columnSpan(2),
+                    TextInput::make('hint')
+                        ->label(__('Hint / Description'))
+                        ->columnSpan(2),
+                ]),
+            Fieldset::make(__('Type specific fields'))
+                ->columns(1)
+                ->columnSpan(1)
+                ->schema($fields)
+        ];
     }
 }

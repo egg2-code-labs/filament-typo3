@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Egg2CodeLabs\FilamentTypo3\Forms\Components;
 
 use Closure;
@@ -9,7 +11,7 @@ use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Components\Utilities\Set;
 use Illuminate\Support\Str;
 
-class SlugInput extends TextInput
+final class SlugInput extends TextInput
 {
     /**
      * @var string Table to generate the slug on
@@ -20,28 +22,6 @@ class SlugInput extends TextInput
      * @var string Column to generate the slug from
      */
     protected string $sourceColumn = 'title';
-
-    public static function make(string|null $name = 'slug'): static
-    {
-        return parent::make($name);
-    }
-
-    /**
-     * @return $this
-     */
-    public function table(string $table): static
-    {
-        $this->table = $table;
-
-        return $this;
-    }
-
-    public function sourceColumn(string $sourceColumn = 'title'): static
-    {
-        $this->sourceColumn = $sourceColumn;
-
-        return $this;
-    }
 
     /**
      * @return void
@@ -76,6 +56,11 @@ class SlugInput extends TextInput
             ->alphaDash();
     }
 
+    public static function make(string|null $name = 'slug'): static
+    {
+        return parent::make($name);
+    }
+
     /**
      * Generate slug when state of sourceField changed
      */
@@ -88,5 +73,22 @@ class SlugInput extends TextInput
 
             return $get($column);
         };
+    }
+
+    /**
+     * @return $this
+     */
+    public function table(string $table): static
+    {
+        $this->table = $table;
+
+        return $this;
+    }
+
+    public function sourceColumn(string $sourceColumn = 'title'): static
+    {
+        $this->sourceColumn = $sourceColumn;
+
+        return $this;
     }
 }

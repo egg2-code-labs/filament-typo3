@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 it('accepts a label', function (): void {
 
 })->todo();

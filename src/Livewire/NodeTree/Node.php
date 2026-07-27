@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Egg2CodeLabs\FilamentTypo3\Livewire\NodeTree;
 
 use Egg2CodeLabs\FilamentTypo3\Interfaces\HasExpandablesInterface;
@@ -14,7 +16,7 @@ use Livewire\Attributes\Renderless;
 use Livewire\Component;
 use Throwable;
 
-class Node extends Component
+final class Node extends Component
 {
     #[Locked]
     public string|int $nodeId;
@@ -159,15 +161,6 @@ class Node extends Component
         }
     }
 
-    private function getEventData(): array
-    {
-        return [
-            'nodeId' => $this->nodeId,
-            'nodeModel' => $this->nodeModel,
-            'isRootNode' => $this->isRootNode,
-        ];
-    }
-
     #[Renderless]
     public function onLabelClick(): void
     {
@@ -178,5 +171,14 @@ class Node extends Component
     public function onIconClick(): void
     {
         $this->dispatch("tree-node-icon-clicked", data: $this->getEventData());
+    }
+
+    private function getEventData(): array
+    {
+        return [
+            'nodeId' => $this->nodeId,
+            'nodeModel' => $this->nodeModel,
+            'isRootNode' => $this->isRootNode,
+        ];
     }
 }

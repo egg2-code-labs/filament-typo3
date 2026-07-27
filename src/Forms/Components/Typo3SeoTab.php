@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Egg2CodeLabs\FilamentTypo3\Forms\Components;
 
 use BackedEnum;
@@ -7,7 +9,7 @@ use Egg2CodeLabs\FilamentTypo3\Forms\Components\Enums\Typo3SeoTabFieldsEnum as F
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 
-class Typo3SeoTab extends AbstractCustomTab
+final class Typo3SeoTab extends AbstractCustomTab
 {
     protected int $_columns = 1;
 

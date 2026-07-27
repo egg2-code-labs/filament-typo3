@@ -1,8 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Egg2CodeLabs\FilamentTypo3;
 
 use Egg2CodeLabs\FilamentTypo3\Database\Schema\BlueprintMixin;
+use Egg2CodeLabs\FilamentTypo3\Livewire\Bookmarks\BookmarksButton;
 use Egg2CodeLabs\FilamentTypo3\Livewire\NodeTree\Node;
 use Filament\Support\Assets\Css;
 use Filament\Support\Facades\FilamentAsset;
@@ -17,7 +20,7 @@ use Spatie\LaravelPackageTools\PackageServiceProvider;
  *
  * @package Egg2CodeLabs\FilamentTypo3
  */
-class FilamentTypo3ServiceProvider extends PackageServiceProvider
+final class FilamentTypo3ServiceProvider extends PackageServiceProvider
 {
     /**
      * The name of the package.
@@ -26,8 +29,6 @@ class FilamentTypo3ServiceProvider extends PackageServiceProvider
 
     /**
      * Configure the package.
-     *
-     *
      */
     public function configurePackage(Package $package): void
     {
@@ -42,7 +43,8 @@ class FilamentTypo3ServiceProvider extends PackageServiceProvider
             ->hasTranslations()
             ->publishesServiceProvider(self::class)
             ->hasMigrations([
-                '2024_10_25_create_filament_typo3_expandable_state_table'
+                '2024_10_25_create_filament_typo3_expandable_state_table',
+                '2024_10_26_add_bookmarks_to_users_table',
             ])
             ->runsMigrations()
             ->hasViews()
@@ -53,7 +55,7 @@ class FilamentTypo3ServiceProvider extends PackageServiceProvider
             assets: [
                 Css::make(
                     id: 'filament-typo3',
-                    path: __DIR__ . '/../resources/dist/app.css'
+                    path: __DIR__ . '/../resources/dist/plugin.css'
                 ),
             ],
             package: 'egg2-code-labs/filament-typo3'
@@ -80,5 +82,6 @@ class FilamentTypo3ServiceProvider extends PackageServiceProvider
     public function registerLivewireComponents(): void
     {
         Livewire::component('filament-typo3::node-tree-node', Node::class);
+        Livewire::component('filament-typo3::bookmarks-button', BookmarksButton::class);
     }
 }

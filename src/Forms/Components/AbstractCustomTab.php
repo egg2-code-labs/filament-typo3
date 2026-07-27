@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Egg2CodeLabs\FilamentTypo3\Forms\Components;
 
 use BackedEnum;
@@ -16,6 +18,19 @@ abstract class AbstractCustomTab extends Tab
     protected int $_columns = 2;
 
     /**
+     * setUp() is run through parent::__construct()
+     */
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->columns($this->_columns);
+        $this->schema(
+            $this->getSchema()
+        );
+    }
+
+    /**
      * Get the schema for the whole tab
      */
     abstract protected function getSchema(): array;
@@ -29,7 +44,7 @@ abstract class AbstractCustomTab extends Tab
      *
      * @return $this
      */
-    public function exclude(array|Closure $exclude): static
+    final public function exclude(array|Closure $exclude): static
     {
         $this->exclude = $exclude;
 
@@ -39,26 +54,13 @@ abstract class AbstractCustomTab extends Tab
     /**
      * Get a sanitized list of excluded fields
      */
-    public function getExclude(): array
+    final public function getExclude(): array
     {
         $exclude = $this->evaluate($this->exclude);
 
         return array_map(
             callback: fn (mixed $item): BackedEnum => $this->evaluateEnum($item),
             array: $exclude
-        );
-    }
-
-    /**
-     * setUp() is run through parent::__construct()
-     */
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->columns($this->_columns);
-        $this->schema(
-            $this->getSchema()
         );
     }
 

@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Egg2CodeLabs\FilamentTypo3\Database\Schema;
 
 use Closure;
 use Egg2CodeLabs\FilamentTypo3\Forms\Components\Enums\Typo3AccessTabFieldsEnum;
 
-class BlueprintMixin
+final class BlueprintMixin
 {
     public function typo3Access(): Closure
     {

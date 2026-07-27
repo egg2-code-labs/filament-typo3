@@ -1,17 +1,37 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Egg2CodeLabs\FilamentTypo3\Tables\Actions;
 
 use Filament\Actions\BulkAction;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
-class ShowHideBulkAction extends BulkAction
+final class ShowHideBulkAction extends BulkAction
 {
     /**
      * @var ShowHideBulkActionEnum Show or hide the records
      */
     protected ShowHideBulkActionEnum $showOrHide;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this
+            ->requiresConfirmation()
+            ->action(function (Collection $records): void {
+                /**
+                 * Initially I wanted to update all elements in one single update query, but for some reason that does
+                 * not work when enabling records again. So here we are back to a loop.
+                 */
+                $records->each(function (Model $record): void {
+                    $record->hidden = $this->showOrHide->value;
+                    $record->save();
+                });
+            });
+    }
 
 
     public static function make(null|string $name = null): static
@@ -60,23 +80,5 @@ class ShowHideBulkAction extends BulkAction
     public function hide(): static
     {
         return $this->showOrHide(ShowHideBulkActionEnum::HIDE);
-    }
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this
-            ->requiresConfirmation()
-            ->action(function (Collection $records): void {
-                /**
-                 * Initially I wanted to update all elements in one single update query, but for some reason that does
-                 * not work when enabling records again. So here we are back to a loop.
-                 */
-                $records->each(function (Model $record): void {
-                    $record->hidden = $this->showOrHide->value;
-                    $record->save();
-                });
-            });
     }
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Egg2CodeLabs\FilamentTypo3\Tables\Columns;
 
 use Filament\Tables\Columns\ToggleColumn;
@@ -9,16 +11,8 @@ use Filament\Tables\Columns\ToggleColumn;
  * Basically the toggle shows active when the `hidden` column is false and vice versa. The idea being that it is
  * more intuitive to disable something by disabling a switch rather than enabling something by disabling a switch.
  */
-class ActiveToggleColumn extends ToggleColumn
+final class ActiveToggleColumn extends ToggleColumn
 {
-    /**
-     * @param string $name
-     */
-    public static function make(string|null $name = 'hidden'): static
-    {
-        return parent::make($name);
-    }
-
     protected function setUp(): void
     {
         parent::setUp();
@@ -36,5 +30,12 @@ class ActiveToggleColumn extends ToggleColumn
                 }
             )
             ->sortable();
+    }
+    /**
+     * @param string $name
+     */
+    public static function make(string|null $name = 'hidden'): static
+    {
+        return parent::make($name);
     }
 }
