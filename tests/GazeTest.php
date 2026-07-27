@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use Egg2CodeLabs\FilamentTypo3\Gaze;
 use Illuminate\Support\Facades\Cache;
 
@@ -12,22 +14,22 @@ afterEach(function () {
 });
 
 it('isOpened returns false when no viewers', function () {
-    $record = new class extends \Illuminate\Database\Eloquent\Model {
-        protected $table = 'test_models';
+    $record = new class extends Illuminate\Database\Eloquent\Model {
         public $id = 1;
+        protected $table = 'test_models';
     };
 
     expect(Gaze::isOpened($record))->toBeFalse();
 });
 
 it('isOpened returns true when viewers exist', function () {
-    $record = new class extends \Illuminate\Database\Eloquent\Model {
-        protected $table = 'test_models';
+    $record = new class extends Illuminate\Database\Eloquent\Model {
         public $id = 1;
+        protected $table = 'test_models';
     };
 
     $identifier = get_class($record) . '-' . $record->getKey();
-    
+
     Cache::put('filament-gaze-' . $identifier, [
         [
             'id' => 999,
@@ -41,13 +43,13 @@ it('isOpened returns true when viewers exist', function () {
 });
 
 it('isOpened excludes current user by default', function () {
-    $record = new class extends \Illuminate\Database\Eloquent\Model {
-        protected $table = 'test_models';
+    $record = new class extends Illuminate\Database\Eloquent\Model {
         public $id = 1;
+        protected $table = 'test_models';
     };
 
     $identifier = get_class($record) . '-' . $record->getKey();
-    
+
     Cache::put('filament-gaze-' . $identifier, [
         [
             'id' => 1,
@@ -57,7 +59,7 @@ it('isOpened excludes current user by default', function () {
         ]
     ], now()->addMinutes(10));
 
-    $this->mock(\Illuminate\Contracts\Auth\Guard::class, function ($mock) {
+    $this->mock(Illuminate\Contracts\Auth\Guard::class, function ($mock) {
         $mock->shouldReceive('id')->andReturn(1);
     });
 
@@ -65,13 +67,13 @@ it('isOpened excludes current user by default', function () {
 });
 
 it('isOpened includes current user when exclude is false', function () {
-    $record = new class extends \Illuminate\Database\Eloquent\Model {
-        protected $table = 'test_models';
+    $record = new class extends Illuminate\Database\Eloquent\Model {
         public $id = 1;
+        protected $table = 'test_models';
     };
 
     $identifier = get_class($record) . '-' . $record->getKey();
-    
+
     Cache::put('filament-gaze-' . $identifier, [
         [
             'id' => 1,
@@ -81,7 +83,7 @@ it('isOpened includes current user when exclude is false', function () {
         ]
     ], now()->addMinutes(10));
 
-    $this->mock(\Illuminate\Contracts\Auth\Guard::class, function ($mock) {
+    $this->mock(Illuminate\Contracts\Auth\Guard::class, function ($mock) {
         $mock->shouldReceive('id')->andReturn(1);
     });
 
@@ -89,13 +91,13 @@ it('isOpened includes current user when exclude is false', function () {
 });
 
 it('getViewerCount returns correct count', function () {
-    $record = new class extends \Illuminate\Database\Eloquent\Model {
-        protected $table = 'test_models';
+    $record = new class extends Illuminate\Database\Eloquent\Model {
         public $id = 1;
+        protected $table = 'test_models';
     };
 
     $identifier = get_class($record) . '-' . $record->getKey();
-    
+
     Cache::put('filament-gaze-' . $identifier, [
         [
             'id' => 1,
@@ -117,7 +119,7 @@ it('getViewerCount returns correct count', function () {
         ],
     ], now()->addMinutes(10));
 
-    $this->mock(\Illuminate\Contracts\Auth\Guard::class, function ($mock) {
+    $this->mock(Illuminate\Contracts\Auth\Guard::class, function ($mock) {
         $mock->shouldReceive('id')->andReturn(1);
     });
 
@@ -125,24 +127,24 @@ it('getViewerCount returns correct count', function () {
 });
 
 it('getIdentifier returns correct format', function () {
-    $record = new class extends \Illuminate\Database\Eloquent\Model {
-        protected $table = 'test_models';
+    $record = new class extends Illuminate\Database\Eloquent\Model {
         public $id = 123;
+        protected $table = 'test_models';
     };
 
     $identifier = Gaze::getIdentifier($record);
-    
+
     expect($identifier)->toBe(get_class($record) . '-123');
 });
 
 it('isLockedByOther returns true when locked by other user', function () {
-    $record = new class extends \Illuminate\Database\Eloquent\Model {
-        protected $table = 'test_models';
+    $record = new class extends Illuminate\Database\Eloquent\Model {
         public $id = 1;
+        protected $table = 'test_models';
     };
 
     $identifier = get_class($record) . '-' . $record->getKey();
-    
+
     Cache::put('filament-gaze-' . $identifier, [
         [
             'id' => 999,
@@ -152,7 +154,7 @@ it('isLockedByOther returns true when locked by other user', function () {
         ]
     ], now()->addMinutes(10));
 
-    $this->mock(\Illuminate\Contracts\Auth\Guard::class, function ($mock) {
+    $this->mock(Illuminate\Contracts\Auth\Guard::class, function ($mock) {
         $mock->shouldReceive('id')->andReturn(1);
     });
 
@@ -160,13 +162,13 @@ it('isLockedByOther returns true when locked by other user', function () {
 });
 
 it('isLockedByOther returns false when current user has control', function () {
-    $record = new class extends \Illuminate\Database\Eloquent\Model {
-        protected $table = 'test_models';
+    $record = new class extends Illuminate\Database\Eloquent\Model {
         public $id = 1;
+        protected $table = 'test_models';
     };
 
     $identifier = get_class($record) . '-' . $record->getKey();
-    
+
     Cache::put('filament-gaze-' . $identifier, [
         [
             'id' => 1,
@@ -176,7 +178,7 @@ it('isLockedByOther returns false when current user has control', function () {
         ]
     ], now()->addMinutes(10));
 
-    $this->mock(\Illuminate\Contracts\Auth\Guard::class, function ($mock) {
+    $this->mock(Illuminate\Contracts\Auth\Guard::class, function ($mock) {
         $mock->shouldReceive('id')->andReturn(1);
     });
 
@@ -184,13 +186,13 @@ it('isLockedByOther returns false when current user has control', function () {
 });
 
 it('getViewers returns correct list', function () {
-    $record = new class extends \Illuminate\Database\Eloquent\Model {
-        protected $table = 'test_models';
+    $record = new class extends Illuminate\Database\Eloquent\Model {
         public $id = 1;
+        protected $table = 'test_models';
     };
 
     $identifier = get_class($record) . '-' . $record->getKey();
-    
+
     $viewers = [
         [
             'id' => 1,
@@ -208,12 +210,12 @@ it('getViewers returns correct list', function () {
 
     Cache::put('filament-gaze-' . $identifier, $viewers, now()->addMinutes(10));
 
-    $this->mock(\Illuminate\Contracts\Auth\Guard::class, function ($mock) {
+    $this->mock(Illuminate\Contracts\Auth\Guard::class, function ($mock) {
         $mock->shouldReceive('id')->andReturn(1);
     });
 
     $result = Gaze::getViewers($record, true);
-    
+
     expect($result)->toHaveCount(1);
     expect($result[0]['name'])->toBe('User 2');
 });
