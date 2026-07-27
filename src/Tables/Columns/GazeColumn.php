@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Egg2CodeLabs\FilamentTypo3\Tables\Columns;
 
 use Egg2CodeLabs\FilamentTypo3\Gaze;
@@ -9,36 +11,12 @@ use Filament\Tables\Columns\Column;
  * A table column that indicates whether a record is currently being viewed by someone.
  * This column integrates with filament-gaze to show viewing status.
  */
-class GazeColumn extends Column
+final class GazeColumn extends Column
 {
     /**
      * Whether to exclude the current user from the check.
      */
     protected bool $excludeCurrentUser = true;
-
-    /**
-     * Create a new GazeColumn instance.
-     *
-     * @param string|null $name The column name (not used, as this is a computed column)
-     * @return static
-     */
-    public static function make(string|null $name = null): static
-    {
-        return parent::make($name ?? 'gaze_status');
-    }
-
-    /**
-     * Set whether to exclude the current user from the check.
-     *
-     * @param bool $exclude Whether to exclude the current user
-     * @return $this
-     */
-    public function excludeCurrentUser(bool $exclude = true): static
-    {
-        $this->excludeCurrentUser = $exclude;
-
-        return $this;
-    }
 
     /**
      * Set up the column.
@@ -67,6 +45,30 @@ class GazeColumn extends Column
     }
 
     /**
+     * Create a new GazeColumn instance.
+     *
+     * @param string|null $name The column name (not used, as this is a computed column)
+     * @return static
+     */
+    public static function make(string|null $name = null): static
+    {
+        return parent::make($name ?? 'gaze_status');
+    }
+
+    /**
+     * Set whether to exclude the current user from the check.
+     *
+     * @param bool $exclude Whether to exclude the current user
+     * @return $this
+     */
+    public function excludeCurrentUser(bool $exclude = true): static
+    {
+        $this->excludeCurrentUser = $exclude;
+
+        return $this;
+    }
+
+    /**
      * Get whether the record is currently being viewed.
      *
      * @param mixed $record The record
@@ -91,11 +93,14 @@ class GazeColumn extends Column
     /**
      * Get the state of the column.
      *
-     * @param mixed $record The record
      * @return bool The state (whether the record is being viewed)
      */
-    public function getState($record): bool
+    public function getState(): mixed
     {
-        return $this->getIsOpened($record);
+        return $this->getIsOpened($this->getRecord());
+    }
+
+    public function getId(): string {
+        return 'filament-typo3-gaze-column';
     }
 }

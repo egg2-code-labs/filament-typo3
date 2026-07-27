@@ -2,6 +2,7 @@
 
 namespace Egg2CodeLabs\FilamentTypo3;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Cache;
 use Filament\Facades\Filament;
 
@@ -18,7 +19,7 @@ class Gaze
      * @param bool $excludeCurrentUser Whether to exclude the current user from the check
      * @return bool True if the record is being viewed by someone
      */
-    public static function isOpened($record, bool $excludeCurrentUser = true): bool
+    public static function isOpened(Model $record, bool $excludeCurrentUser = true): bool
     {
         if (!$record) {
             return false;
@@ -26,7 +27,7 @@ class Gaze
 
         $identifier = static::getIdentifier($record);
         $viewers = Cache::get('filament-gaze-' . $identifier, []);
-        
+
         if (empty($viewers)) {
             return false;
         }
@@ -56,7 +57,7 @@ class Gaze
      * @param bool $excludeCurrentUser Whether to exclude the current user from the count
      * @return int The number of users viewing the record
      */
-    public static function getViewerCount($record, bool $excludeCurrentUser = true): int
+    public static function getViewerCount(Model $record, bool $excludeCurrentUser = true): int
     {
         if (!$record) {
             return 0;
@@ -64,7 +65,7 @@ class Gaze
 
         $identifier = static::getIdentifier($record);
         $viewers = Cache::get('filament-gaze-' . $identifier, []);
-        
+
         if (empty($viewers)) {
             return 0;
         }
@@ -94,7 +95,7 @@ class Gaze
      * @param mixed $record The record
      * @return string The identifier
      */
-    public static function getIdentifier($record): string
+    public static function getIdentifier(Model $record): string
     {
         return get_class($record) . '-' . $record->getKey();
     }
@@ -102,10 +103,10 @@ class Gaze
     /**
      * Check if a record is currently locked by someone else.
      *
-     * @param mixed $record The record to check
+     * @param Model $record The record to check
      * @return bool True if the record is locked by someone else
      */
-    public static function isLockedByOther($record): bool
+    public static function isLockedByOther(Model $record): bool
     {
         if (!$record) {
             return false;
@@ -113,7 +114,7 @@ class Gaze
 
         $identifier = static::getIdentifier($record);
         $viewers = Cache::get('filament-gaze-' . $identifier, []);
-        
+
         if (empty($viewers)) {
             return false;
         }
@@ -130,7 +131,7 @@ class Gaze
             ) {
                 return true;
             }
-
+        }
         return false;
     }
 
@@ -149,7 +150,7 @@ class Gaze
 
         $identifier = static::getIdentifier($record);
         $viewers = Cache::get('filament-gaze-' . $identifier, []);
-        
+
         if (empty($viewers)) {
             return [];
         }

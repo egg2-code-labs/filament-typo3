@@ -1,6 +1,7 @@
 # Gaze Integration
 
-This package provides integration with [filament-gaze](https://github.com/discoverydesign/filament-gaze) to show whether records are currently being viewed by other users.
+This package provides integration with [filament-gaze](https://github.com/discoverydesign/filament-gaze) to show whether
+records are currently being viewed by other users.
 
 ## Installation
 
@@ -81,6 +82,7 @@ GazeColumn::make(),
 ```
 
 This will:
+
 - Show an eye icon that's highlighted when someone is viewing the record
 - Display the number of viewers next to the icon
 - Be toggleable, but not sortable or searchable (as it's computed)
@@ -118,9 +120,11 @@ TextColumn::make('viewer_count')
 
 ## How It Works
 
-The integration works by reading from the same cache that filament-gaze uses to track viewers. The cache key format is `filament-gaze-{class}-{id}`, which matches what filament-gaze uses internally.
+The integration works by reading from the same cache that filament-gaze uses to track viewers. The cache key format is
+`filament-gaze-{class}-{id}`, which matches what filament-gaze uses internally.
 
-The helper methods check this cache and return information about who is currently viewing the record, with options to exclude the current user from the results.
+The helper methods check this cache and return information about who is currently viewing the record, with options to
+exclude the current user from the results.
 
 ## Notes
 
