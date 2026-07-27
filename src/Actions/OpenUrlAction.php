@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Egg2CodeLabs\FilamentTypo3\Forms\Components\Actions;
+namespace Egg2CodeLabs\FilamentTypo3\Actions;
 
 use Filament\Forms\Components\Actions\Action;
 

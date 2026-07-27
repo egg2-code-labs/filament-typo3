@@ -4,16 +4,25 @@ declare(strict_types=1);
 
 namespace Egg2CodeLabs\FilamentTypo3\Scopes;
 
-use Egg2CodeLabs\FilamentTypo3\Forms\Components\Enums\Typo3AccessTabFieldsEnum;
+use Egg2CodeLabs\FilamentTypo3\Enums\Typo3AccessTabFieldsEnum;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Scope;
 use Illuminate\Support\Collection;
 
+/**
+ * Apply the TYPO3 access scope to filter records based on visibility and timing.
+ *
+ * This scope filters records that:
+ * - Are not hidden (unless HIDDEN field is disabled)
+ * - Have starttime in the past or null (unless STARTTIME field is disabled)
+ * - Have endtime in the future or null (unless ENDTIME field is disabled)
+ * - Are sorted by the sorting field (unless sorting is disabled)
+ */
 final readonly class Typo3AccessScope implements Scope
 {
     /**
-     * @param Collection<Typo3AccessTabFieldsEnum> $disabledFields
+     * @var Collection<Typo3AccessTabFieldsEnum> List of disabled fields
      */
     private Collection $disabledFields;
 
@@ -30,6 +39,9 @@ final readonly class Typo3AccessScope implements Scope
 
     /**
      * Apply the scope to a given Eloquent query builder.
+     *
+     * @param Builder $builder The query builder to apply the scope to
+     * @param Model $model The model being queried
      */
     public function apply(Builder $builder, Model $model): void
     {
@@ -37,35 +49,26 @@ final readonly class Typo3AccessScope implements Scope
         $table = $model->getTable();
 
         $builder
-            /**
-             * Don't load entries that are hidden and should not be displayed.
-             */
             ->when(
-                value: fn () => $this->disabledFields->doesntContain(Typo3AccessTabFieldsEnum::HIDDEN),
-                callback: function (Builder $query) use ($table) {
+                value: fn (): bool => $this->disabledFields->doesntContain(Typo3AccessTabFieldsEnum::HIDDEN),
+                callback: function (Builder $query) use ($table): Builder {
                     return $query->where("{$table}.hidden", 'false');
                 }
             )
-            /**
-             * Only load entries that either don't have a starttime, or that have a starttime in the past.
-             */
             ->when(
-                value: fn () => $this->disabledFields->doesntContain(Typo3AccessTabFieldsEnum::STARTTIME),
-                callback: function (Builder $query) use ($now, $table) {
-                    return $query->where(function (Builder $query) use ($now, $table) {
+                value: fn (): bool => $this->disabledFields->doesntContain(Typo3AccessTabFieldsEnum::STARTTIME),
+                callback: function (Builder $query) use ($now, $table): Builder {
+                    return $query->where(function (Builder $query) use ($now, $table): Builder {
                         return $query
                             ->whereNull("{$table}.starttime")
                             ->orWhere("{$table}.starttime", '<=', $now);
                     });
                 }
             )
-            /**
-             * Only load entries that either don't have an endtime, or that ahve an endtime in the future.
-             */
             ->when(
-                value: fn () => $this->disabledFields->doesntContain(Typo3AccessTabFieldsEnum::ENDTIME),
-                callback: function (Builder $query) use ($now, $table) {
-                    return $query->where(function (Builder $query) use ($now, $table) {
+                value: fn (): bool => $this->disabledFields->doesntContain(Typo3AccessTabFieldsEnum::ENDTIME),
+                callback: function (Builder $query) use ($now, $table): Builder {
+                    return $query->where(function (Builder $query) use ($now, $table): Builder {
                         return $query
                             ->whereNull("{$table}.endtime")
                             ->orWhere("{$table}.endtime", '>=', $now);
@@ -74,7 +77,7 @@ final readonly class Typo3AccessScope implements Scope
             )
             ->when(
                 value: fn (): bool => $this->sorting,
-                callback: function (Builder $query) use ($table) {
+                callback: function (Builder $query) use ($table): Builder {
                     return $query->orderBy("{$table}.sorting", 'asc');
                 }
             );

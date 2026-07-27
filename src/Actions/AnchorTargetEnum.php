@@ -1,6 +1,6 @@
 <?php
 
-namespace Egg2CodeLabs\FilamentTypo3\Forms\Components\Actions;
+namespace Egg2CodeLabs\FilamentTypo3\Actions;
 
 enum AnchorTargetEnum: string
 {

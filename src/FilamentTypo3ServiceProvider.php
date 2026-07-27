@@ -13,9 +13,9 @@ use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
 /**
- * Class FilamentGazeServiceProvider
+ * Service provider for the Filament TYPO3 package.
  *
- * @package Egg2CodeLabs\FilamentTypo3
+ * Registers package resources, migrations, views, assets, and Livewire components.
  */
 class FilamentTypo3ServiceProvider extends PackageServiceProvider
 {
@@ -26,16 +26,9 @@ class FilamentTypo3ServiceProvider extends PackageServiceProvider
 
     /**
      * Configure the package.
-     *
-     *
      */
     public function configurePackage(Package $package): void
     {
-        /**
-         * TODO: for later versions we could create a single migration for a table that will hold access and timestamp
-         *       data through a polymorphic mapping. Right now we will just provide a simple helper to add the required
-         *       fields to each migration manually.
-         */
         $package
             ->name('filament-typo3')
             ->hasConfigFile()
@@ -70,6 +63,9 @@ class FilamentTypo3ServiceProvider extends PackageServiceProvider
         Blueprint::mixin(new BlueprintMixin());
     }
 
+    /**
+     * Perform actions during package booting.
+     */
     public function bootingPackage(): void
     {
         parent::bootingPackage();
@@ -77,6 +73,9 @@ class FilamentTypo3ServiceProvider extends PackageServiceProvider
         $this->registerLivewireComponents();
     }
 
+    /**
+     * Register Livewire components for the package.
+     */
     public function registerLivewireComponents(): void
     {
         Livewire::component('filament-typo3::node-tree-node', Node::class);

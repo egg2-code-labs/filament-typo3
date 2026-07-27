@@ -6,27 +6,42 @@ use BackedEnum;
 use Closure;
 use Filament\Schemas\Components\Tabs\Tab;
 
+/**
+ * Abstract base class for custom TYPO3 tabs in Filament forms.
+ *
+ * Provides common functionality for tab components with field exclusion support.
+ */
 abstract class AbstractCustomTab extends Tab
 {
     /**
-     * @var array<BackedEnum> List of fields excluded from rendering
+     * @var array<BackedEnum>|Closure List of fields excluded from rendering
      */
     protected Closure|array $exclude = [];
 
+    /**
+     * Number of columns for the tab layout.
+     */
     protected int $_columns = 2;
 
     /**
-     * Get the schema for the whole tab
+     * Get the schema for the whole tab.
+     *
+     * @return array<mixed> The form schema components
      */
     abstract protected function getSchema(): array;
 
+    /**
+     * Evaluate and convert field name to enum.
+     *
+     * @param BackedEnum|string $fieldName The field name to evaluate
+     * @return BackedEnum The corresponding enum value
+     */
     abstract protected function evaluateEnum(BackedEnum|string $fieldName): BackedEnum;
 
     /**
-     * Add fields to the list of excluded fields
+     * Add fields to the list of excluded fields.
      *
      * @param Closure|array<BackedEnum|string> $exclude List of fields to exclude in this view
-     *
      * @return $this
      */
     public function exclude(array|Closure $exclude): static
@@ -37,7 +52,9 @@ abstract class AbstractCustomTab extends Tab
     }
 
     /**
-     * Get a sanitized list of excluded fields
+     * Get a sanitized list of excluded fields.
+     *
+     * @return array<BackedEnum> Array of enum values representing excluded fields
      */
     public function getExclude(): array
     {
@@ -50,7 +67,7 @@ abstract class AbstractCustomTab extends Tab
     }
 
     /**
-     * setUp() is run through parent::__construct()
+     * setUp() is run through parent::__construct().
      */
     protected function setUp(): void
     {
@@ -63,10 +80,10 @@ abstract class AbstractCustomTab extends Tab
     }
 
     /**
-     * Check if whether a field is hidden
+     * Check if a field is hidden.
      *
-     *
-     * @return bool true if hidden, false if not hidden
+     * @param BackedEnum|string $fieldName The field name to check
+     * @return bool True if hidden, false if not hidden
      */
     protected function isFieldHidden(BackedEnum|string $fieldName): bool
     {

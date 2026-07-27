@@ -9,6 +9,12 @@ use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Components\Utilities\Set;
 use Illuminate\Support\Str;
 
+/**
+ * Slug input component with automatic generation from source field.
+ *
+ * Provides functionality to generate and refresh slugs based on a source column,
+ * similar to TYPO3 CMS slug handling.
+ */
 class SlugInput extends TextInput
 {
     /**
@@ -27,6 +33,9 @@ class SlugInput extends TextInput
     }
 
     /**
+     * Set the table for slug uniqueness.
+     *
+     * @param string $table The table name
      * @return $this
      */
     public function table(string $table): static
@@ -36,6 +45,12 @@ class SlugInput extends TextInput
         return $this;
     }
 
+    /**
+     * Set the source column for slug generation.
+     *
+     * @param string $sourceColumn The source column name, defaults to 'title'
+     * @return $this
+     */
     public function sourceColumn(string $sourceColumn = 'title'): static
     {
         $this->sourceColumn = $sourceColumn;
@@ -44,9 +59,7 @@ class SlugInput extends TextInput
     }
 
     /**
-     * @return void
-     *
-     * TODO: Slug generation function should also take page path into account
+     * Set up the component with default configuration.
      */
     protected function setUp(): void
     {
@@ -61,7 +74,7 @@ class SlugInput extends TextInput
                     ->tooltip(__('Refresh slug'))
                     ->requiresConfirmation()
                     ->action(
-                        fn (Set $set, Get $get, mixed $state): mixed => $set(
+                        fn (Set $set, Get $get): mixed => $set(
                             path: $this->name,
                             state: Str::slug($get($this->sourceColumn))
                         )
@@ -77,7 +90,9 @@ class SlugInput extends TextInput
     }
 
     /**
-     * Generate slug when state of sourceField changed
+     * Generate slug when state of sourceField changed.
+     *
+     * @return Closure The handler function for slug generation
      */
     public static function getSlugHandlerFunction(): Closure
     {

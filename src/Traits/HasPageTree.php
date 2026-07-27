@@ -9,24 +9,43 @@ use Filament\Pages\Page;
 use Filament\Support\Concerns\EvaluatesClosures;
 use ReflectionClass;
 
+/**
+ * Trait for pages that have a page tree sidebar.
+ *
+ * Provides functionality to automatically register and manage a sidebar
+ * with a TYPO3-style page tree.
+ */
 trait HasPageTree
 {
     use EvaluatesClosures;
 
+    /**
+     * Whether the page has a sidebar.
+     */
     public static bool|Closure $hasSidebar = true;
 
+    /**
+     * Get the sidebar node tree instance.
+     *
+     * @return NodeTree The node tree instance
+     */
     public function getSidebar(): NodeTree
     {
         return NodeTree::make($this->getModel());
     }
 
+    /**
+     * Get the model class for the page tree.
+     *
+     * @return string The model class
+     */
     public function getModel(): string
     {
         return static::getResource()::getModel();
     }
 
     /**
-     * Register view automatically if available and activated
+     * Register view automatically if available and activated.
      */
     public function bootHasPageTree(): void
     {
@@ -36,10 +55,10 @@ trait HasPageTree
     }
 
     /**
-     * Return view used in sidebar proxy
+     * Return view used in sidebar proxy.
      *
-     * @return string \Filament\Pages\Page View to be included
-     * @throws Exception
+     * @return string The view to include in the sidebar
+     * @throws Exception If no view is detected
      */
     public function getIncludedSidebarView(): string
     {
@@ -57,7 +76,9 @@ trait HasPageTree
     }
 
     /**
-     * @return int[]
+     * Get the sidebar widths for different screen sizes.
+     *
+     * @return int[] Array of widths for different breakpoints
      */
     public function getSidebarWidths(): array
     {

@@ -2,8 +2,9 @@
 
 namespace Egg2CodeLabs\FilamentTypo3\Livewire\NodeTree;
 
+use Egg2CodeLabs\FilamentTypo3\Actions\ContextAction;
 use Egg2CodeLabs\FilamentTypo3\Interfaces\HasExpandablesInterface;
-use Egg2CodeLabs\FilamentTypo3\Models\ContextAction;
+use Egg2CodeLabs\FilamentTypo3\Models\ExpandableState;
 use Filament\Resources\Resource;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Collection;
@@ -14,8 +15,17 @@ use Livewire\Attributes\Renderless;
 use Livewire\Component;
 use Throwable;
 
+/**
+ * Livewire component for rendering individual nodes in the node tree.
+ *
+ * Handles node rendering, child loading, and context menu actions for the
+ * TYPO3-style page tree functionality.
+ */
 class Node extends Component
 {
+    /**
+     * @var string|int The node identifier
+     */
     #[Locked]
     public string|int $nodeId;
 
@@ -35,10 +45,16 @@ class Node extends Component
     public string $resource;
 
     /**
-     * @var string[]
+     * @var string[] Default columns to select for node queries
      */
     private static array $defaultSelect = ['id', 'doctype', 'title', 'hidden'];
 
+    /**
+     * Mount the component with the given node.
+     *
+     * @param HasExpandablesInterface $node The node to render
+     * @param bool $isRootNode Whether this is a root node
+     */
     public function mount(HasExpandablesInterface $node, bool $isRootNode = false): void
     {
         $this->nodeId = $node->getKey();
@@ -48,11 +64,21 @@ class Node extends Component
         $this->isRootNode = $isRootNode;
     }
 
+    /**
+     * Render the node view.
+     *
+     * @return View The rendered view
+     */
     public function render(): View
     {
         return view('filament-typo3::components.node-tree.node');
     }
 
+    /**
+     * Get the current node from the database.
+     *
+     * @return HasExpandablesInterface The node model instance
+     */
     #[Computed]
     public function node(): HasExpandablesInterface
     {
@@ -65,6 +91,11 @@ class Node extends Component
             ->first();
     }
 
+    /**
+     * Get the children of the current node.
+     *
+     * @return Collection<HasExpandablesInterface> The child nodes
+     */
     #[Computed]
     public function children(): Collection
     {
@@ -76,6 +107,11 @@ class Node extends Component
             ->get();
     }
 
+    /**
+     * Check if the current node is expanded in the UI.
+     *
+     * @return bool True if the node is expanded, false otherwise
+     */
     #[Computed]
     public function isOpen(): bool
     {
@@ -87,7 +123,9 @@ class Node extends Component
     }
 
     /**
-     * @return array Array of actions
+     * Get the available actions for the current node.
+     *
+     * @return array<ContextAction> Array of context menu actions
      */
     #[Computed]
     public function nodeActions(): array
@@ -111,6 +149,8 @@ class Node extends Component
     }
 
     /**
+     * Toggle the hidden status of the current record.
+     *
      * @throws Throwable
      */
     public function toggleRecordHidden(): void
@@ -126,6 +166,9 @@ class Node extends Component
         }
     }
 
+    /**
+     * Toggle the expanded state of the current node.
+     */
     public function toggle(): void
     {
         $isOpen = !$this->isOpen();
@@ -159,6 +202,11 @@ class Node extends Component
         }
     }
 
+    /**
+     * Get the event data for node events.
+     *
+     * @return array<string, mixed> The event data
+     */
     private function getEventData(): array
     {
         return [
@@ -168,12 +216,18 @@ class Node extends Component
         ];
     }
 
+    /**
+     * Handle label click event.
+     */
     #[Renderless]
     public function onLabelClick(): void
     {
         $this->dispatch('tree-node-clicked', data: $this->getEventData());
     }
 
+    /**
+     * Handle icon click event.
+     */
     #[Renderless]
     public function onIconClick(): void
     {

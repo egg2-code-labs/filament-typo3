@@ -4,7 +4,7 @@ namespace Egg2CodeLabs\FilamentTypo3\Forms\Components;
 
 use BackedEnum;
 use Closure;
-use Egg2CodeLabs\FilamentTypo3\Forms\Components\Enums\Typo3AccessTabFieldsEnum as FieldsEnum;
+use Egg2CodeLabs\FilamentTypo3\Enums\Typo3AccessTabFieldsEnum as FieldsEnum;
 use Filament\Actions\Action;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Toggle;
@@ -12,28 +12,33 @@ use Filament\Schemas\Components\Section;
 use Filament\Schemas\Components\Utilities\Set;
 use Illuminate\Contracts\Support\Htmlable;
 
+/**
+ * TYPO3 Access Tab component for Filament forms.
+ *
+ * Provides fields for controlling visibility and publish dates of records,
+ * similar to TYPO3 CMS functionality.
+ */
 class Typo3AccessTab extends AbstractCustomTab
 {
+    /**
+     * Number of columns for the tab layout.
+     */
+    protected int $_columns = 2;
+
     public static function make(string|Htmlable|Closure|null $label = 'Access'): static
     {
         return parent::make($label);
     }
 
     /**
-     * Get the schema for the whole tab
+     * Get the schema for the access tab.
      *
-     * @return array
-     *
-     * TODO: try to make this look at the DB schema for the model and hide fields automatically
+     * @return array<mixed> The form schema components
      */
     protected function getSchema(): array
     {
         return [
             Section::make(FieldsEnum::SECTION_VISIBILITY->value)
-                /**
-                 * We need to provide closures here because they need to be evaluated at a later stage when the whole
-                 * schema is parsed and rendered into HTML.
-                 */
                 ->hidden(fn (): bool => $this->isFieldHidden(FieldsEnum::SECTION_VISIBILITY))
                 ->schema([
                     Toggle::make(FieldsEnum::HIDDEN->value)
@@ -59,7 +64,7 @@ class Typo3AccessTab extends AbstractCustomTab
                         ->suffixAction(
                             Action::make('clear')
                                 ->icon('heroicon-o-x-mark')
-                                ->action(fn (Set $set, mixed $state): mixed => $set('starttime', null))
+                                ->action(fn (Set $set): mixed => $set('starttime', null))
                         ),
                     DateTimePicker::make(FieldsEnum::ENDTIME->value)
                         ->hidden(fn (): bool => $this->isFieldHidden(FieldsEnum::ENDTIME))
@@ -67,13 +72,19 @@ class Typo3AccessTab extends AbstractCustomTab
                         ->suffixAction(
                             Action::make('clear')
                                 ->icon('heroicon-o-x-mark')
-                                ->action(fn (Set $set, mixed $state): mixed => $set('endtime', null))
+                                ->action(fn (Set $set): mixed => $set('endtime', null))
                         ),
                 ])
                 ->columns(2),
         ];
     }
 
+    /**
+     * Evaluate and convert field name to enum.
+     *
+     * @param BackedEnum|string $fieldName The field name to evaluate
+     * @return BackedEnum The corresponding enum value
+     */
     protected function evaluateEnum(BackedEnum|string $fieldName): BackedEnum
     {
         if (!$fieldName instanceof FieldsEnum) {
