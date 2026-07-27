@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use Egg2CodeLabs\FilamentTypo3\Traits\HasBookmarksTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -9,7 +11,7 @@ uses(RefreshDatabase::class);
 /**
  * A minimal stub User model that uses HasBookmarksTrait for testing.
  */
-class BookmarksTestUser extends Model
+final class BookmarksTestUser extends Model
 {
     use HasBookmarksTrait;
 
@@ -20,7 +22,7 @@ class BookmarksTestUser extends Model
 
 beforeEach(function (): void {
     // Create the users table with a bookmarks column for testing
-    \Illuminate\Support\Facades\Schema::create('users', function (\Illuminate\Database\Schema\Blueprint $table): void {
+    Illuminate\Support\Facades\Schema::create('users', function (Illuminate\Database\Schema\Blueprint $table): void {
         $table->id();
         $table->string('name')->default('Test User');
         $table->string('email')->default('test@example.com');
@@ -31,7 +33,7 @@ beforeEach(function (): void {
 });
 
 afterEach(function (): void {
-    \Illuminate\Support\Facades\Schema::dropIfExists('users');
+    Illuminate\Support\Facades\Schema::dropIfExists('users');
 });
 
 it('initializes bookmarks cast automatically', function (): void {

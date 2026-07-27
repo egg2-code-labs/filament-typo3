@@ -1,9 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Egg2CodeLabs\FilamentTypo3\Models;
 
 use Filament\Actions\Action;
 
-class ContextAction extends Action
+final class ContextAction extends Action
 {
 }

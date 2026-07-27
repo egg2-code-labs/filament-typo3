@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Egg2CodeLabs\FilamentTypo3\Forms\Components;
 
 use BackedEnum;
@@ -12,7 +14,7 @@ use Filament\Schemas\Components\Section;
 use Filament\Schemas\Components\Utilities\Set;
 use Illuminate\Contracts\Support\Htmlable;
 
-class Typo3AccessTab extends AbstractCustomTab
+final class Typo3AccessTab extends AbstractCustomTab
 {
     public static function make(string|Htmlable|Closure|null $label = 'Access'): static
     {

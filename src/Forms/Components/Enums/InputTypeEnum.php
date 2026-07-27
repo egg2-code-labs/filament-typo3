@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Egg2CodeLabs\FilamentTypo3\Forms\Components\Enums;
 
 use Illuminate\Support\Collection;
@@ -17,7 +19,7 @@ enum InputTypeEnum: string
     case MONTH = 'month';
     case NUMBER = 'number';
     case RADIO = 'radio';
-//    case RANGE = 'range';
+    //    case RANGE = 'range';
     case TEL = 'tel';
     case TEXT = 'text';
     case TIME = 'time';

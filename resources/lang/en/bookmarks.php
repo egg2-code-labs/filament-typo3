@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 return [
     'bookmarks' => 'Bookmarks',
     'no_bookmarks' => 'No bookmarks yet.',

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Egg2CodeLabs\FilamentTypo3;
 
 use Egg2CodeLabs\FilamentTypo3\Database\Schema\BlueprintMixin;
@@ -18,7 +20,7 @@ use Spatie\LaravelPackageTools\PackageServiceProvider;
  *
  * @package Egg2CodeLabs\FilamentTypo3
  */
-class FilamentTypo3ServiceProvider extends PackageServiceProvider
+final class FilamentTypo3ServiceProvider extends PackageServiceProvider
 {
     /**
      * The name of the package.
@@ -27,8 +29,6 @@ class FilamentTypo3ServiceProvider extends PackageServiceProvider
 
     /**
      * Configure the package.
-     *
-     *
      */
     public function configurePackage(Package $package): void
     {

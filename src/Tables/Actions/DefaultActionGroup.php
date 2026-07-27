@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Egg2CodeLabs\FilamentTypo3\Tables\Actions;
 
 use Exception;
@@ -13,7 +15,7 @@ use Filament\Actions\ViewAction;
  * The default actions in this group can be dynamically overwritten by providing actions that use the same name. Actions
  * added to the stack later override actions that have been added earlier, including default actions.
  */
-class DefaultActionGroup extends ActionGroup
+final class DefaultActionGroup extends ActionGroup
 {
     /**
      * @var array<StaticAction | ActionGroup>
@@ -24,20 +26,6 @@ class DefaultActionGroup extends ActionGroup
      * @var array<string, StaticAction>
      */
     protected array $flatActions;
-
-    /**
-     * @param array<StaticAction | ActionGroup> $actions
-     * @throws Exception
-     */
-    public function actions(array $actions): static
-    {
-        $this->actions = [];
-        $this->flatActions = [];
-
-        $this->addActions($actions);
-
-        return $this;
-    }
 
     /**
      * @throws Exception
@@ -54,6 +42,32 @@ class DefaultActionGroup extends ActionGroup
             RestoreAction::make()
                 ->requiresConfirmation(),
         ]);
+    }
+
+    /**
+     * @throws Exception
+     */
+    public static function make(array $actions = []): static
+    {
+        $static = parent::make([]);
+
+        $static->addActions($actions);
+
+        return $static;
+    }
+
+    /**
+     * @param array<StaticAction | ActionGroup> $actions
+     * @throws Exception
+     */
+    public function actions(array $actions): static
+    {
+        $this->actions = [];
+        $this->flatActions = [];
+
+        $this->addActions($actions);
+
+        return $this;
     }
 
     /**
@@ -81,18 +95,6 @@ class DefaultActionGroup extends ActionGroup
         }
 
         return $this;
-    }
-
-    /**
-     * @throws Exception
-     */
-    public static function make(array $actions = []): static
-    {
-        $static = parent::make([]);
-
-        $static->addActions($actions);
-
-        return $static;
     }
 
 }

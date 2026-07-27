@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Egg2CodeLabs\FilamentTypo3;
 
 use Closure;
@@ -9,7 +11,7 @@ use Filament\Support\Concerns\EvaluatesClosures;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 
-class NodeTree
+final class NodeTree
 {
     use EvaluatesClosures;
 
@@ -28,7 +30,7 @@ class NodeTree
 
     public static function make(string|Closure|null $model = null): static
     {
-        return new static(
+        return new self(
             title: 'Pages',
             description: 'Tree of pages',
             model: $model
