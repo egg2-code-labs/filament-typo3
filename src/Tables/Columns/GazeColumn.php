@@ -5,13 +5,14 @@ declare(strict_types=1);
 namespace Egg2CodeLabs\FilamentTypo3\Tables\Columns;
 
 use Egg2CodeLabs\FilamentTypo3\Gaze;
-use Filament\Tables\Columns\Column;
+use Filament\Support\Icons\Heroicon;
+use Filament\Tables\Columns\TextColumn;
 
 /**
  * A table column that indicates whether a record is currently being viewed by someone.
  * This column integrates with filament-gaze to show viewing status.
  */
-final class GazeColumn extends Column
+final class GazeColumn extends TextColumn
 {
     /**
      * Whether to exclude the current user from the check.
@@ -28,16 +29,14 @@ final class GazeColumn extends Column
         parent::setUp();
 
         $this
-            ->label('Viewing')
-            ->state(
-                fn ($record) => $this->getIsOpened($record)
+            ->label(
+                ""
             )
-            ->view('filament-typo3::tables.columns.gaze-column')
-            ->extraAttributes(
-                fn ($record) => [
-                    'data-gaze-viewers' => $this->getViewerCount($record),
-                    'data-gaze-is-opened' => $this->getIsOpened($record) ? 'true' : 'false',
-                ]
+            ->tooltip(__('filament-typo3::gaze.tooltip'))
+            ->icon(Heroicon::OutlinedUser)
+            ->iconColor(fn ($record) => $this->getViewerCount($record) > 0 ? 'danger' : 'success')
+            ->formatStateUsing(
+                fn ($record) => $this->getViewerCount($record)
             )
             ->toggleable()
             ->sortable(false)
@@ -48,6 +47,7 @@ final class GazeColumn extends Column
      * Create a new GazeColumn instance.
      *
      * @param string|null $name The column name (not used, as this is a computed column)
+     *
      * @return static
      */
     public static function make(string|null $name = null): static
@@ -59,6 +59,7 @@ final class GazeColumn extends Column
      * Set whether to exclude the current user from the check.
      *
      * @param bool $exclude Whether to exclude the current user
+     *
      * @return $this
      */
     public function excludeCurrentUser(bool $exclude = true): static
@@ -72,6 +73,7 @@ final class GazeColumn extends Column
      * Get whether the record is currently being viewed.
      *
      * @param mixed $record The record
+     *
      * @return bool True if the record is being viewed
      */
     public function getIsOpened($record): bool
@@ -83,6 +85,7 @@ final class GazeColumn extends Column
      * Get the number of viewers for the record.
      *
      * @param mixed $record The record
+     *
      * @return int The number of viewers
      */
     public function getViewerCount($record): int
@@ -100,7 +103,8 @@ final class GazeColumn extends Column
         return $this->getIsOpened($this->getRecord());
     }
 
-    public function getId(): string {
+    public function getId(): string
+    {
         return 'filament-typo3-gaze-column';
     }
 }
