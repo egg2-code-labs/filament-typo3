@@ -16,7 +16,7 @@ final class GazeColumn extends Column
     /**
      * Whether to exclude the current user from the check.
      */
-    protected bool $excludeCurrentUser = true;
+    protected bool $excludeCurrentUser = false;
 
     /**
      * Set up the column.

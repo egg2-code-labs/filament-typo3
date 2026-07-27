@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Egg2CodeLabs\FilamentTypo3;
 
 use Illuminate\Database\Eloquent\Model;
@@ -10,7 +12,7 @@ use Filament\Facades\Filament;
  * Helper class for filament-gaze functionality.
  * Provides methods to check if a record is currently being viewed by someone.
  */
-class Gaze
+final class Gaze
 {
     /**
      * Check if a record is currently being viewed by anyone.
@@ -25,7 +27,7 @@ class Gaze
             return false;
         }
 
-        $identifier = static::getIdentifier($record);
+        $identifier = self::getIdentifier($record);
         $viewers = Cache::get('filament-gaze-' . $identifier, []);
 
         if (empty($viewers)) {
@@ -37,7 +39,7 @@ class Gaze
 
         foreach ($viewers as $viewer) {
             // Skip if we should exclude current user and this is the current user
-            if ($excludeCurrentUser && isset($viewer['id']) && $viewer['id'] == $currentUserId) {
+            if ($excludeCurrentUser && isset($viewer['id']) && $viewer['id'] === $currentUserId) {
                 continue;
             }
 
@@ -57,28 +59,29 @@ class Gaze
      * @param bool $excludeCurrentUser Whether to exclude the current user from the count
      * @return int The number of users viewing the record
      */
-    public static function getViewerCount(Model $record, bool $excludeCurrentUser = true): int
+    public static function getViewerCount(Model $record, bool $excludeCurrentUser = false): int
     {
         if (!$record) {
             return 0;
         }
 
-        $identifier = static::getIdentifier($record);
+        $identifier = self::getIdentifier($record);
         $viewers = Cache::get('filament-gaze-' . $identifier, []);
 
         if (empty($viewers)) {
             return 0;
         }
 
-        $authGuard = Filament::getCurrentPanel()?->getAuthGuard() ?? config('filament.default_auth_guard', 'web');
+        $authGuard = Filament::getCurrentPanel()?->getAuthGuard();
         $currentUserId = auth()->guard($authGuard)?->id();
 
         $count = 0;
         foreach ($viewers as $viewer) {
             // Skip if we should exclude current user and this is the current user
-            if ($excludeCurrentUser && isset($viewer['id']) && $viewer['id'] == $currentUserId) {
+            if ($excludeCurrentUser && isset($viewer['id']) && $viewer['id'] === $currentUserId) {
                 continue;
             }
+
 
             // Check if viewer is still valid (not expired)
             if (isset($viewer['expires']) && now()->lt(\Illuminate\Support\Carbon::parse($viewer['expires']))) {
@@ -112,7 +115,7 @@ class Gaze
             return false;
         }
 
-        $identifier = static::getIdentifier($record);
+        $identifier = self::getIdentifier($record);
         $viewers = Cache::get('filament-gaze-' . $identifier, []);
 
         if (empty($viewers)) {
@@ -126,7 +129,7 @@ class Gaze
             // Check if this viewer has control and is not the current user
             if (
                 ($viewer['has_control'] ?? false) === true
-                && isset($viewer['id']) && $viewer['id'] != $currentUserId
+                && isset($viewer['id']) && $viewer['id'] !== $currentUserId
                 && isset($viewer['expires']) && now()->lt(\Illuminate\Support\Carbon::parse($viewer['expires']))
             ) {
                 return true;
@@ -148,7 +151,7 @@ class Gaze
             return [];
         }
 
-        $identifier = static::getIdentifier($record);
+        $identifier = self::getIdentifier($record);
         $viewers = Cache::get('filament-gaze-' . $identifier, []);
 
         if (empty($viewers)) {
@@ -161,7 +164,7 @@ class Gaze
         $result = [];
         foreach ($viewers as $viewer) {
             // Skip if we should exclude current user and this is the current user
-            if ($excludeCurrentUser && isset($viewer['id']) && $viewer['id'] == $currentUserId) {
+            if ($excludeCurrentUser && isset($viewer['id']) && $viewer['id'] === $currentUserId) {
                 continue;
             }
 
