@@ -16,7 +16,7 @@ use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
 /**
- * Class FilamentGazeServiceProvider
+ * Class FilamentTypo3ServiceProvider
  *
  * @package Egg2CodeLabs\FilamentTypo3
  */
